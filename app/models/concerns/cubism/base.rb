@@ -1,0 +1,2 @@
+module Cubism::Base
+end

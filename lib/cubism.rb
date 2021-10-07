@@ -1,5 +1,5 @@
 require "cubism/version"
-require "cubism/railtie"
+require "cubism/engine"
 
 module Cubism
   # Your code goes here...
