@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors     = ["Julian Rubisch"]
   spec.email       = ["julian@julianrubisch.at"]
   spec.homepage    = "https://github.com/julianrubisch/cubism"
-  spec.summary     = "Lighweight Presence-Based Resource Updates with CableReady"
-  spec.description = "Lighweight Presence-Based Resource Updates with CableReady"
+  spec.summary     = "Lightweight Resource-Based Presence Solution with CableReady"
+  spec.description = "Lightweight Resource-Based Presence Solution with CableReady"
   spec.license     = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage

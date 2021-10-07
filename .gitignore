@@ -11,3 +11,4 @@
 .byebug_history
 *~
 /Gemfile.lock
+/node_modules/

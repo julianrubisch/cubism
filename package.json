@@ -1,0 +1,37 @@
+{
+  "name": "@minthesize/cubism",
+  "version": "0.1.0",
+  "description": "Lightweight Resource-Based Presence Solution with CableReady.",
+  "main": "./javascript/index.js",
+  "module": "./javascript/index.js",
+  "directories": {
+    "javascript": "javascript",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "yarn run prettier-standard:check",
+    "format": "yarn run prettier-standard:format",
+    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js",
+    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianrubisch/cubism.git"
+  },
+  "keywords": [
+    "presence"
+  ],
+  "author": "Julian Rubisch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/julianrubisch/cubism/issues"
+  },
+  "homepage": "https://github.com/julianrubisch/cubism#readme",
+  "devDependencies": {
+    "prettier-standard": "^16.4.1"
+  },
+  "dependencies": {
+    "cable_ready": "5.0.0-pre4"
+  }
+}
