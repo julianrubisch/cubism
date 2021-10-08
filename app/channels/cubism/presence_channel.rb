@@ -1,8 +1,9 @@
-class Cubism::PresenceChannel < ApplicationCable::Channel
+class Cubism::PresenceChannel < ActionCable::Channel::Base
+  include CableReady::StreamIdentifier
+
   def subscribed
-    resource = GlobalID::Locator.locate_signed params[:signed_resource]
     if resource.present?
-      stream_from "presence:#{resource.id}"
+      stream_for resource
       resource.present_users.add(current_user.id)
     else
       reject
@@ -10,9 +11,15 @@ class Cubism::PresenceChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    resource = GlobalID::Locator.locate_signed params[:signed_resource]
     return unless resource.present?
 
     resource.present_users.remove(current_user.id)
+  end
+
+  private
+
+  def resource
+    locator = verified_stream_identifier(params[:identifier])
+    GlobalID::Locator.locate(locator)
   end
 end
