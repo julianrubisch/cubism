@@ -43,9 +43,9 @@ export class Cubicle extends SubscribingElement {
       .querySelector('slot[name=template]')
       .assignedElements()[0]
 
-    const contentSlot = this.shadowRoot.querySelector('slot[name=content]')
-
-    contentSlot.innerHTML = ''
+    this.querySelectorAll('[slot=content]').forEach(element => {
+      element.remove()
+    })
 
     detail.users.forEach(user => {
       const templateClone = template.content.cloneNode(true)
@@ -58,7 +58,8 @@ export class Cubicle extends SubscribingElement {
           })
       }
 
-      contentSlot.appendChild(templateClone)
+      templateClone.firstElementChild.slot = 'content'
+      this.appendChild(templateClone.firstElementChild)
     })
   }
 }
