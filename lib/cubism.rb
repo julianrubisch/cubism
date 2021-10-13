@@ -2,5 +2,5 @@ require "cubism/version"
 require "cubism/engine"
 
 module Cubism
-  # Your code goes here...
+  mattr_accessor :user_class, instance_writer: false, instance_reader: false
 end
