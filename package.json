@@ -4,6 +4,7 @@
   "description": "Lightweight Resource-Based Presence Solution with CableReady.",
   "main": "./javascript/index.js",
   "module": "./javascript/index.js",
+  "files": "./javascript/**/*.js",
   "directories": {
     "javascript": "javascript",
     "lib": "lib",

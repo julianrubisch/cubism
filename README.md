@@ -96,7 +96,6 @@ Below are a set of instructions that may help you get a local development enviro
 ```sh
 # Get the gem/npm package source locally
 git clone cubism
-cd cubism/javascript
 yarn install # install all of the npm package's dependencies
 yarn link # set the local machine's cubism npm package's lookup to this local path
 
@@ -125,7 +124,7 @@ yarn install --force
 2. `git commit -m "Bump version to x.x.x"`
 3. Run `bundle exec rake build`
 4. Run `bundle exec rake release`
-5. `cd javascript && npm publish --access public`
+5. Run `npm publish --access public`
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
