@@ -1,3 +1,5 @@
+require "kredis"
+
 require "cubism/version"
 require "cubism/engine"
 
