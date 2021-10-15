@@ -95,7 +95,7 @@ Below are a set of instructions that may help you get a local development enviro
 
 ```sh
 # Get the gem/npm package source locally
-git clone cubism
+git clone https://github.com/julianrubisch/cubism
 yarn install # install all of the npm package's dependencies
 yarn link # set the local machine's cubism npm package's lookup to this local path
 
