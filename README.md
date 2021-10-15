@@ -44,7 +44,7 @@ Using the `cubicle_for` helper, you can set up a presence indicator. It will
 2. accept a "template" using the attributes safelisted above. Elements marked with `data-cubicle-attribute=` will have their `innerHTML` replaced by Cubism.
 
 ```erb
-<%= cubicle_for @project do %>
+<%= cubicle_for @project, current_user do %>
   <span class="avatar">
     <span data-cubicle-attribute="email"></span>
   </span>

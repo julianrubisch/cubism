@@ -38,6 +38,19 @@ export class Cubicle extends SubscribingElement {
     if (data.cableReady) CableReady.perform(data.operations)
   }
 
+  createSubscription (consumer, channel, receivedCallback) {
+    this.channel = consumer.subscriptions.create(
+      {
+        channel,
+        identifier: this.getAttribute('identifier'),
+        user: this.getAttribute('user')
+      },
+      {
+        received: receivedCallback
+      }
+    )
+  }
+
   update ({ detail }) {
     const template = this.shadowRoot
       .querySelector('slot[name=template]')
