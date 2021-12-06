@@ -15,7 +15,10 @@ export class Cubicle extends SubscribingElement {
 <slot name="content"></slot>
 `
 
-    this.trigger = this.getAttribute('trigger')
+    this.subscribeTrigger = this.getAttribute('subscribe-trigger')
+    this.unsubscribeTrigger = this.getAttribute('unsubscribe-trigger')
+    this.triggerRootSelector = this.getAttribute('trigger-root')
+    this.triggerRoot = this
 
     this.addEventListener('cubism:update', this.update.bind(this))
   }
@@ -23,27 +26,62 @@ export class Cubicle extends SubscribingElement {
   async connectedCallback () {
     if (this.preview) return
     this.consumer = await CableReady.consumer
-    if (this.consumer) {
-      this.createSubscription(
-        this.consumer,
-        'Cubism::PresenceChannel',
-        this.performOperations
-      )
-    } else {
-      console.error(
-        'The `cubicle-element` helper cannot connect without an ActionCable consumer.'
-      )
+
+    this.channel = this.createSubscription()
+
+    if (this.triggerRootSelector) {
+      this.triggerRoot = document.querySelector(this.triggerRootSelector)
     }
+
+    if (this.trigger === 'connect') {
+      this.appear()
+    } else {
+      this.triggerRoot.addEventListener(this.subscribeTrigger, () => {
+        this.appear()
+      })
+    }
+
+    if (this.unsubscribeTrigger) {
+      this.triggerRoot.addEventListener(this.unsubscribeTrigger, () => {
+        if (this.channel) {
+          this.disappear()
+        }
+      })
+    }
+  }
+
+  disconnectedCallback () {
+    this.disappear()
+    super.disconnectedCallback()
+  }
+
+  appear () {
+    this.channel.send({
+      type: 'appear'
+    })
+  }
+
+  disappear () {
+    this.channel.send({
+      type: 'disappear'
+    })
   }
 
   performOperations (data) {
     if (data.cableReady) CableReady.perform(data.operations)
   }
 
-  createSubscription (consumer, channel, receivedCallback) {
-    this.channel = consumer.subscriptions.create(
+  createSubscription (receivedCallback) {
+    if (!this.consumer) {
+      console.error(
+        'The `cubicle-element` helper cannot connect without an ActionCable consumer.'
+      )
+      return
+    }
+
+    return this.consumer.subscriptions.create(
       {
-        channel,
+        channel: this.channelName,
         identifier: this.getAttribute('identifier'),
         user: this.getAttribute('user'),
         element_id: this.id,
@@ -51,7 +89,7 @@ export class Cubicle extends SubscribingElement {
           this.getAttribute('exclude-current-user') === 'true'
       },
       {
-        received: receivedCallback
+        received: this.performOperations
       }
     )
   }
@@ -79,5 +117,9 @@ export class Cubicle extends SubscribingElement {
       templateClone.firstElementChild.slot = 'content'
       this.appendChild(templateClone.firstElementChild)
     })
+  }
+
+  get channelName () {
+    return 'Cubism::PresenceChannel'
   }
 }

@@ -6,7 +6,6 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
       stream_for resource
       resource.cubicle_element_ids << element_id
       resource.excluded_user_id_for_element_id[element_id] = user.id if exclude_current_user?
-      resource.present_users.add(user.id)
     else
       reject
     end
@@ -15,9 +14,22 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   def unsubscribed
     return unless resource.present?
 
-    resource.present_users.remove(user.id)
     resource.cubicle_element_ids.remove(element_id)
     resource.excluded_user_id_for_element_id.delete(element_id)
+  end
+
+  def receive(data)
+    if %w[appear disappear].include?(data["type"])
+      send(data["type"])
+    end
+  end
+
+  def appear
+    resource.present_users.add(user.id)
+  end
+
+  def disappear
+    resource.present_users.remove(user.id)
   end
 
   private
