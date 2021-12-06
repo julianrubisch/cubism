@@ -33,6 +33,6 @@
     "prettier-standard": "^16.4.1"
   },
   "dependencies": {
-    "cable_ready": "5.0.0-pre6"
+    "cable_ready": "5.0.0-pre8"
   }
 }

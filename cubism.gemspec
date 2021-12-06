@@ -18,7 +18,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", "~> 6.1.0"
   spec.add_dependency "kredis", ">= 0.4"
-  spec.add_dependency "cable_ready", "= 5.0.0.pre6"
+  spec.add_dependency "cable_ready", "= 5.0.0.pre8"
 
+  spec.add_development_dependency "pry"
   spec.add_development_dependency "standard"
 end
