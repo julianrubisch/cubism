@@ -45,7 +45,10 @@ export class Cubicle extends SubscribingElement {
       {
         channel,
         identifier: this.getAttribute('identifier'),
-        user: this.getAttribute('user')
+        user: this.getAttribute('user'),
+        element_id: this.id,
+        exclude_current_user:
+          this.getAttribute('exclude-current-user') === 'true'
       },
       {
         received: receivedCallback
