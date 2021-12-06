@@ -15,15 +15,17 @@ export class Cubicle extends SubscribingElement {
 <slot name="content"></slot>
 `
 
+    this.trigger = this.getAttribute('trigger')
+
     this.addEventListener('cubism:update', this.update.bind(this))
   }
 
   async connectedCallback () {
     if (this.preview) return
-    const consumer = await CableReady.consumer
-    if (consumer) {
+    this.consumer = await CableReady.consumer
+    if (this.consumer) {
       this.createSubscription(
-        consumer,
+        this.consumer,
         'Cubism::PresenceChannel',
         this.performOperations
       )
