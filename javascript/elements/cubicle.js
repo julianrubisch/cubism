@@ -15,9 +15,6 @@ export class Cubicle extends SubscribingElement {
 <slot name="content"></slot>
 `
 
-    this.subscribeTrigger = this.getAttribute('subscribe-trigger')
-    this.unsubscribeTrigger = this.getAttribute('unsubscribe-trigger')
-    this.triggerRootSelector = this.getAttribute('trigger-root')
     this.triggerRoot = this
 
     this.addEventListener('cubism:update', this.update.bind(this))
@@ -25,6 +22,11 @@ export class Cubicle extends SubscribingElement {
 
   async connectedCallback () {
     if (this.preview) return
+
+    this.appearTrigger = this.getAttribute('appear-trigger')
+    this.disappearTrigger = this.getAttribute('disappear-trigger')
+    this.triggerRootSelector = this.getAttribute('trigger-root')
+
     this.consumer = await CableReady.consumer
 
     this.channel = this.createSubscription()
@@ -33,16 +35,14 @@ export class Cubicle extends SubscribingElement {
       this.triggerRoot = document.querySelector(this.triggerRootSelector)
     }
 
-    if (this.trigger === 'connect') {
-      this.appear()
-    } else {
-      this.triggerRoot.addEventListener(this.subscribeTrigger, () => {
+    if (this.appearTrigger !== 'connect') {
+      this.triggerRoot.addEventListener(this.appearTrigger, () => {
         this.appear()
       })
     }
 
-    if (this.unsubscribeTrigger) {
-      this.triggerRoot.addEventListener(this.unsubscribeTrigger, () => {
+    if (this.disappearTrigger) {
+      this.triggerRoot.addEventListener(this.disappearTrigger, () => {
         if (this.channel) {
           this.disappear()
         }
@@ -51,7 +51,6 @@ export class Cubicle extends SubscribingElement {
   }
 
   disconnectedCallback () {
-    this.disappear()
     super.disconnectedCallback()
   }
 
@@ -71,7 +70,7 @@ export class Cubicle extends SubscribingElement {
     if (data.cableReady) CableReady.perform(data.operations)
   }
 
-  createSubscription (receivedCallback) {
+  createSubscription () {
     if (!this.consumer) {
       console.error(
         'The `cubicle-element` helper cannot connect without an ActionCable consumer.'
@@ -89,6 +88,14 @@ export class Cubicle extends SubscribingElement {
           this.getAttribute('exclude-current-user') === 'true'
       },
       {
+        connected: () => {
+          if (this.appearTrigger === 'connect') {
+            this.appear()
+          }
+        },
+        disconnected: () => {
+          this.disappear()
+        },
         received: this.performOperations
       }
     )
