@@ -17,7 +17,7 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
 
     resource.present_users.remove(user.id)
     resource.cubicle_element_ids.remove(element_id)
-    resource.exclude_current_user_for_element_id.delete(element_id)
+    resource.excluded_user_id_for_element_id.delete(element_id)
   end
 
   private
