@@ -45,17 +45,33 @@ export class Cubicle extends SubscribingElement {
     if (this.appearTrigger === 'connect') {
       this.appear()
     } else {
-      this.triggerRoot.addEventListener(this.appearTrigger, () => {
-        this.appear()
-      })
+      this.triggerRoot.addEventListener(
+        this.appearTrigger,
+        this.appear.bind(this)
+      )
     }
 
     if (this.disappearTrigger) {
-      this.triggerRoot.addEventListener(this.disappearTrigger, () => {
-        if (this.channel) {
-          this.disappear()
-        }
-      })
+      this.triggerRoot.addEventListener(
+        this.disappearTrigger,
+        this.disappear.bind(this)
+      )
+    }
+  }
+
+  uninstall () {
+    if (this.appearTrigger !== 'connect') {
+      this.triggerRoot.removeEventListener(
+        this.appearTrigger,
+        this.appear.bind(this)
+      )
+    }
+
+    if (this.disappearTrigger) {
+      this.triggerRoot.removeEventListener(
+        this.disappearTrigger,
+        this.disappear.bind(this)
+      )
     }
   }
 
@@ -94,6 +110,10 @@ export class Cubicle extends SubscribingElement {
         },
         disconnected: () => {
           this.disappear()
+          this.uninstall()
+        },
+        rejected: () => {
+          this.uninstall()
         },
         received: this.performOperations
       }
