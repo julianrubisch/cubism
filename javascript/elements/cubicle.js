@@ -34,8 +34,17 @@ export class Cubicle extends SubscribingElement {
     if (this.triggerRootSelector) {
       this.triggerRoot = document.querySelector(this.triggerRootSelector)
     }
+  }
 
-    if (this.appearTrigger !== 'connect') {
+  disconnectedCallback () {
+    this.disappear()
+    super.disconnectedCallback()
+  }
+
+  install () {
+    if (this.appearTrigger === 'connect') {
+      this.appear()
+    } else {
       this.triggerRoot.addEventListener(this.appearTrigger, () => {
         this.appear()
       })
@@ -50,20 +59,12 @@ export class Cubicle extends SubscribingElement {
     }
   }
 
-  disconnectedCallback () {
-    super.disconnectedCallback()
-  }
-
   appear () {
-    this.channel.send({
-      type: 'appear'
-    })
+    this.channel.perform('appear')
   }
 
   disappear () {
-    this.channel.send({
-      type: 'disappear'
-    })
+    this.channel.perform('disappear')
   }
 
   performOperations (data) {
@@ -89,9 +90,7 @@ export class Cubicle extends SubscribingElement {
       },
       {
         connected: () => {
-          if (this.appearTrigger === 'connect') {
-            this.appear()
-          }
+          this.install()
         },
         disconnected: () => {
           this.disappear()

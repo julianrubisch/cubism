@@ -16,12 +16,7 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
 
     resource.cubicle_element_ids.remove(element_id)
     resource.excluded_user_id_for_element_id.delete(element_id)
-  end
-
-  def receive(data)
-    if %w[appear disappear].include?(data["type"])
-      send(data["type"])
-    end
+    disappear
   end
 
   def appear
