@@ -2,6 +2,7 @@ require "kredis"
 
 require "cubism/version"
 require "cubism/engine"
+require "cubism/broadcaster"
 require "cubism/cubicle_block_store"
 
 module Cubism
