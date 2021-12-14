@@ -5,9 +5,7 @@ module CubismHelper
     key = "#{block.source_location.join(":")}:#{resource.to_gid}:#{user.to_gid}"
     verifiable_id = CableReady.signed_stream_verifier.generate(key)
 
-    Cubism.store[verifiable_id] = block.dup
-    template = capture(&block)
-
+    Cubism.store[verifiable_id] = Cubism::BlockStoreItem.new(context: self, block: block.dup)
     tag.cubicle_element(
       identifier: signed_stream_identifier(resource.to_gid.to_s),
       user: user.to_sgid.to_s,
@@ -17,8 +15,6 @@ module CubismHelper
       id: "cubicle-#{verifiable_id}",
       "exclude-current-user": exclude_current_user,
       **html_options
-    ) do
-      content_tag(:template, template, {slot: "template"})
-    end
+    )
   end
 end

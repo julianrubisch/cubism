@@ -11,12 +11,14 @@ module Cubism
 
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
-        cable_ready[Cubism::PresenceChannel].dispatch_event(
-          name: "cubism:update",
+        /cubicle-(?<block_key>.+)/ =~ element_id
+        block = Cubism.store[block_key].block
+        view_context = Cubism.store[block_key].context
+        html = view_context.capture(users_for(resource, element_id), &block)
+
+        cable_ready[Cubism::PresenceChannel].inner_html(
           selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
-          detail: {
-            users: users_for(resource, element_id)
-          }
+          html: html
         ).broadcast_to(resource)
       end
     end
@@ -27,7 +29,7 @@ module Cubism
       users = Cubism.user_class.find(resource.present_users.members)
       users.reject! { |user| user.id == resource.excluded_user_id_for_element_id[element_id].to_i }
 
-      users.map { |user| user.slice(user.cubicle_attributes) }.as_json
+      users
     end
   end
 end

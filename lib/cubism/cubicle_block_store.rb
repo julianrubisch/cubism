@@ -22,4 +22,6 @@ module Cubism
       @mutex ||= Mutex.new
     end
   end
+
+  BlockStoreItem = Struct.new(:context, :block, keyword_init: true)
 end
