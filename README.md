@@ -8,7 +8,8 @@ Lightweight Resource-Based Presence Solution with CableReady
 - [Table of Contents](#table-of-contents)
 - [Usage](#usage)
 - [Installation](#installation)
-- [Manual Installation](#manual-installation)
+- [API](#api)
+- [Gotchas](#gotchas)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contributors](#contributors)
@@ -16,12 +17,11 @@ Lightweight Resource-Based Presence Solution with CableReady
 ## Usage
 
 ### Prepare your User Model
-In your app's `User` model, include `Cubism::User` and set up a safelist of exposed attributes:
+In your app's `User` model, include `Cubism::User`:
 
 ```rb
 class User < ApplicationRecord
   include Cubism::User
-  self.cubicle_attributes = %i[email id]
 
   # ...
 end
@@ -33,6 +33,8 @@ In the models you'd like to track presence for, include the `Cubism::Presence` c
 ```rb
 class Project < ApplicationRecord
   include Cubism::Presence
+
+  # ...
 end
 ```
 
@@ -41,17 +43,13 @@ end
 Using the `cubicle_for` helper, you can set up a presence indicator. It will
 
 1. subscribe to the respective resource, and
-2. accept a "template" using the attributes safelisted above. Elements marked with `data-cubicle-attribute=` will have their `innerHTML` replaced by Cubism.
+2. render a block which is passed the list of present `users`:
 
 ```erb
-<%= cubicle_for @project, current_user do %>
-  <span class="avatar">
-    <span data-cubicle-attribute="email"></span>
-  </span>
+<%= cubicle_for @project, current_user do |users| %>
+  <%= users.map(&:username).join(", ")
 <% end %>
 ```
-
-Note that this template will simply be repeated for every user that's in the `@project`s `present_users` set.
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -86,6 +84,39 @@ import "@minthesize/cubism";
 CableReady.initialize({ consumer });
 ```
 
+## API
+
+The `cubicle_for` helper accepts the following options as keyword arguments:
+
+- `exclude_current_user (true|false)`: Whether or not to exclude the current user from the list of present users broadcasted to the view. Useful e.g. for "typing..." indicators.
+- `appear_trigger`: a JavaScript event name (e.g. `:focus`) to use. The default is `:connect`, i.e. register a user as "appeared"/"present" when the element connects to the DOM.
+- `disappear_trigger`: a JavaScript event name (e.g. `:blur`) to use. The default is `:disconnect`, i.e. remove a user form the present users list when the element disconnects from the DOM.
+- `trigger_root`: a CSS selector to attach the appear/disappear events to. Defaults to the `cubicle-element` itself.
+- `html_options` are passed to the TagBuilder.
+
+## Gotchas
+
+### Usage with ViewComponent
+
+Currently there's a bug in VC resulting in the `capture` helper not working correctly (https://github.com/github/view_component/pull/974). The current workaround is to assign a slot in your component and render the presence list from outside:
+
+```rb
+class MyComponent < ViewComponent::Base
+  renders_one :presence_list
+
+  # ...
+end
+```
+
+```erb
+<%= render MyComponent.new do |c| %>
+  <% c.presence_list do %>
+    <%= cubicle_for @project, current_user do |users| %>
+      ...
+    <% end %>
+  <% end %>
+<% end %>
+```
 
 ## Contributing
 

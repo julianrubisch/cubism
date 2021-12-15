@@ -11,13 +11,10 @@ export class Cubicle extends SubscribingElement {
     display: block;
   }
 </style>
-<slot name="template"></slot>
-<slot name="content"></slot>
+<slot></slot>
 `
 
     this.triggerRoot = this
-
-    this.addEventListener('cubism:update', this.update.bind(this))
   }
 
   async connectedCallback () {
@@ -118,31 +115,6 @@ export class Cubicle extends SubscribingElement {
         received: this.performOperations
       }
     )
-  }
-
-  update ({ detail }) {
-    const template = this.shadowRoot
-      .querySelector('slot[name=template]')
-      .assignedElements()[0]
-
-    this.querySelectorAll('[slot=content]').forEach(element => {
-      element.remove()
-    })
-
-    detail.users.forEach(user => {
-      const templateClone = template.content.cloneNode(true)
-
-      for (const attribute in user) {
-        templateClone
-          .querySelectorAll(`[data-cubicle-attribute=${attribute}]`)
-          .forEach(element => {
-            element.innerHTML = user[attribute]
-          })
-      }
-
-      templateClone.firstElementChild.slot = 'content'
-      this.appendChild(templateClone.firstElementChild)
-    })
   }
 
   get channelName () {
