@@ -6,9 +6,7 @@
   "module": "./javascript/index.js",
   "files": "./javascript/**/*.js",
   "directories": {
-    "javascript": "javascript",
-    "lib": "lib",
-    "test": "test"
+    "javascript": "javascript"
   },
   "scripts": {
     "lint": "yarn run prettier-standard:check",
