@@ -1,3 +1,5 @@
+require "cable_ready"
+
 module Cubism
   class Broadcaster
     include CableReady::Broadcaster
