@@ -73,11 +73,11 @@ export class Cubicle extends SubscribingElement {
   }
 
   appear () {
-    this.channel.perform('appear')
+    if (this.channel) this.channel.perform('appear')
   }
 
   disappear () {
-    this.channel.perform('disappear')
+    if (this.channel) this.channel.perform('disappear')
   }
 
   performOperations (data) {
