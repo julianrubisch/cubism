@@ -1,6 +1,6 @@
 {
   "name": "@minthesize/cubism",
-  "version": "0.1.0-pre4",
+  "version": "0.1.0-pre5",
   "description": "Lightweight Resource-Based Presence Solution with CableReady.",
   "main": "./javascript/index.js",
   "module": "./javascript/index.js",
