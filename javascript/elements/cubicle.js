@@ -81,7 +81,12 @@ export class Cubicle extends SubscribingElement {
   }
 
   performOperations (data) {
-    if (data.cableReady) CableReady.perform(data.operations)
+    if (data.cableReady) {
+      const operations = data.operations.filter(op =>
+        op.selector.includes(this.id)
+      )
+      CableReady.perform(operations)
+    }
   }
 
   createSubscription () {
@@ -112,7 +117,7 @@ export class Cubicle extends SubscribingElement {
         rejected: () => {
           this.uninstall()
         },
-        received: this.performOperations
+        received: this.performOperations.bind(this)
       }
     )
   }
