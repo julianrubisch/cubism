@@ -3,7 +3,7 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
 
   def subscribed
     if resource.present?
-      stream_for resource
+      stream_from params[:element_id]
       resource.cubicle_element_ids << element_id
       resource.excluded_user_id_for_element_id[element_id] = user.id if exclude_current_user?
     else

@@ -82,10 +82,7 @@ export class Cubicle extends SubscribingElement {
 
   performOperations (data) {
     if (data.cableReady) {
-      const operations = data.operations.filter(op =>
-        op.selector.includes(this.id)
-      )
-      CableReady.perform(operations)
+      CableReady.perform(data.operations)
     }
   }
 

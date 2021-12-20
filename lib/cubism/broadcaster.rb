@@ -18,10 +18,10 @@ module Cubism
         view_context = Cubism.store[block_key].context
         html = view_context.capture(users_for(resource, element_id), &block)
 
-        cable_ready[Cubism::PresenceChannel].inner_html(
+        cable_ready[element_id].inner_html(
           selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
           html: html
-        ).broadcast_to(resource)
+        ).broadcast
       end
     end
 
