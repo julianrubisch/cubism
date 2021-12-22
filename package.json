@@ -4,10 +4,7 @@
   "description": "Lightweight Resource-Based Presence Solution with CableReady.",
   "main": "./javascript/index.js",
   "module": "./javascript/index.js",
-  "files": "./javascript/**/*.js",
-  "directories": {
-    "javascript": "javascript"
-  },
+  "files": ["./javascript/**/*.js"],
   "scripts": {
     "lint": "yarn run prettier-standard:check",
     "format": "yarn run prettier-standard:format",
