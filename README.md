@@ -92,8 +92,8 @@ CableReady.initialize({ consumer });
 The `cubicle_for` helper accepts the following options as keyword arguments:
 
 - `exclude_current_user (true|false)`: Whether or not to exclude the current user from the list of present users broadcasted to the view. Useful e.g. for "typing..." indicators.
-- `appear_trigger`: a JavaScript event name (e.g. `:focus`) to use. The default is `:connect`, i.e. register a user as "appeared"/"present" when the element connects to the DOM.
-- `disappear_trigger`: a JavaScript event name (e.g. `:blur`) to use. The default is `:disconnect`, i.e. remove a user form the present users list when the element disconnects from the DOM.
+- `appear_trigger`: JavaScript event names (e.g. `["focus", "debounced:input]`) to use. (Can also be a singular string, which will be converted to an array). The default is `:connect`, i.e. register a user as "appeared"/"present" when the element connects to the DOM.
+- `disappear_trigger`: a JavaScript event name (e.g. `:blur`) to use. (Can also be a singular string, which will be converted to an array). The default is `:disconnect`, i.e. remove a user form the present users list when the element disconnects from the DOM.
 - `trigger_root`: a CSS selector to attach the appear/disappear events to. Defaults to the `cubicle-element` itself.
 - `html_options` are passed to the TagBuilder.
 

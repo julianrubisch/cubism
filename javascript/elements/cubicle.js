@@ -20,8 +20,12 @@ export class Cubicle extends SubscribingElement {
   async connectedCallback () {
     if (this.preview) return
 
-    this.appearTrigger = this.getAttribute('appear-trigger')
-    this.disappearTrigger = this.getAttribute('disappear-trigger')
+    this.appearTriggers = this.getAttribute('appear-trigger')
+      ? this.getAttribute('appear-trigger').split(',')
+      : []
+    this.disappearTriggers = this.getAttribute('disappear-trigger')
+      ? this.getAttribute('disappear-trigger').split(',')
+      : []
     this.triggerRootSelector = this.getAttribute('trigger-root')
 
     this.consumer = await CableReady.consumer
@@ -39,37 +43,31 @@ export class Cubicle extends SubscribingElement {
   }
 
   install () {
-    if (this.appearTrigger === 'connect') {
+    if (this.appearTriggers.includes('connect')) {
       this.appear()
-    } else {
-      this.triggerRoot.addEventListener(
-        this.appearTrigger,
-        this.appear.bind(this)
-      )
     }
 
-    if (this.disappearTrigger) {
-      this.triggerRoot.addEventListener(
-        this.disappearTrigger,
-        this.disappear.bind(this)
-      )
-    }
+    this.appearTriggers
+      .filter(eventName => eventName !== 'connect')
+      .forEach(eventName => {
+        this.triggerRoot.addEventListener(eventName, this.appear.bind(this))
+      })
+
+    this.disappearTriggers.forEach(eventName => {
+      this.triggerRoot.addEventListener(eventName, this.disappear.bind(this))
+    })
   }
 
   uninstall () {
-    if (this.appearTrigger !== 'connect') {
-      this.triggerRoot.removeEventListener(
-        this.appearTrigger,
-        this.appear.bind(this)
-      )
-    }
+    this.appearTriggers
+      .filter(eventName => eventName !== 'connect')
+      .forEach(eventName => {
+        this.triggerRoot.removeEventListener(eventName, this.appear.bind(this))
+      })
 
-    if (this.disappearTrigger) {
-      this.triggerRoot.removeEventListener(
-        this.disappearTrigger,
-        this.disappear.bind(this)
-      )
-    }
+    this.disappearTriggers.forEach(eventName => {
+      this.triggerRoot.removeEventListener(eventName, this.disappear.bind(this))
+    })
   }
 
   appear () {

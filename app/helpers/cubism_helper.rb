@@ -9,7 +9,7 @@ module CubismHelper
     tag.cubicle_element(
       identifier: signed_stream_identifier(resource.to_gid.to_s),
       user: user.to_sgid.to_s,
-      "appear-trigger": appear_trigger,
+      "appear-trigger": Array(appear_trigger).join(","),
       "disappear-trigger": disappear_trigger,
       "trigger-root": trigger_root,
       id: "cubicle-#{digested_id}",
