@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Cubism::StreamPresenceJobTest < ActiveJob::TestCase
+class UserTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

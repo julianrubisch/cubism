@@ -2,6 +2,8 @@ module Cubism
   class CubicleBlockStore
     include Singleton
 
+    delegate_missing_to :@blocks
+
     def initialize
       @blocks = {}
     end
@@ -13,6 +15,12 @@ module Cubism
     def []=(key, value)
       mutex.synchronize do
         @blocks[key] = value
+      end
+    end
+
+    def clear
+      mutex.synchronize do
+        @blocks.clear
       end
     end
 
