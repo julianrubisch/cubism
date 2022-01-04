@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_01_02_073003) do
-
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -24,5 +23,4 @@ ActiveRecord::Schema.define(version: 2022_01_02_073003) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-
 end
