@@ -13,3 +13,5 @@
 /Gemfile.lock
 /node_modules/
 .dir-locals.el
+gemfiles/*.lock
+/vendor/
