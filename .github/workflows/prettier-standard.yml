@@ -1,0 +1,23 @@
+name: Prettier-Standard
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - main
+
+jobs:
+  prettier:
+    name: Prettier-Standard Check Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Run prettier-standard check
+      run: npx prettier-standard --lint
+      working-directory: javascript

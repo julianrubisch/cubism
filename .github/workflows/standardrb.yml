@@ -1,0 +1,32 @@
+name: StandardRB
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - main
+
+jobs:
+  standard:
+    name: StandardRB Check Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Ruby 3.0.3
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.3
+        bundler-cache: true
+    - name: Install sqlite headers
+      run: |
+        sudo apt-get update
+        sudo apt-get install libsqlite3-dev
+    - name: Bundle install
+      run: |
+        gem install bundler
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+    - name: Run StandardRB
+      run: bundle exec standardrb --format progress
