@@ -1,3 +1,5 @@
+/* global customElements */
+
 import { Cubicle } from './cubicle'
 
 export * from './cubicle'
