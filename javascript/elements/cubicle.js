@@ -1,5 +1,6 @@
-import CableReady from 'cable_ready'
-import { SubscribingElement } from 'cable_ready'
+/* global customElements */
+
+import CableReady, { SubscribingElement } from 'cable_ready'
 
 export class Cubicle extends SubscribingElement {
   constructor () {
