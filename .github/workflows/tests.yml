@@ -14,19 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
        matrix:
-         ruby-version: [2.7.2, '3.0.3']
+         ruby-version: [2.7.2, 3.0.3, 3.1.0]
+         rails-version: ['6_0', '6_1', '7_0'] 
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile         
     steps:
       - uses: actions/checkout@master
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-      # - uses: actions/cache@v1
-      #   with:
-      #     path: vendor/bundle
-      #     key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gems-
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
       - name: Install sqlite headers
         run: |
           sudo apt-get update
@@ -37,10 +40,6 @@ jobs:
           gem update --system
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-      - name: Appraisal
-        run: |
-          bundle exec appraisal install
       - name: Run ruby tests
         run: |
-          gem update --system
-          bundle exec appraisal rake test
+          bundle exec rake test
