@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.1.0.pre9](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre9) (2022-01-09)
+
+[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre8...v0.1.0.pre9)
+
 ## [v0.1.0.pre8](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre8) (2021-12-22)
 
 [Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre7...v0.1.0.pre8)
