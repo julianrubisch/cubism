@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/julianrubisch/cubism/tree/HEAD)
+
+[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre9...HEAD)
+
+**Merged pull requests:**
+
+- Add value proposition to README [\#5](https://github.com/julianrubisch/cubism/pull/5) ([fractaledmind](https://github.com/fractaledmind))
+
 ## [v0.1.0.pre9](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre9) (2022-01-09)
 
 [Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre8...v0.1.0.pre9)
