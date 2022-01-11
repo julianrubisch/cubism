@@ -4,7 +4,9 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Twitter follow](https://img.shields.io/twitter/follow/julian_rubisch?style=social)](https://twitter.com/julian_rubisch)
 
-Lightweight Resource-Based Presence Solution with CableReady
+Lightweight Resource-Based Presence Solution with CableReady.
+
+`Cubism` provides real-time updates of who is viewing or interacting with whatever resources you need. Whether you want Slack's "X is typing..." indicator or an e-commerce "5 other customers are viewing this item" notice, `Cubism` gives you everything you need "under the hood" so that you can focus on what really matters—end-user functionality.
 
 ## Table of Contents
 
