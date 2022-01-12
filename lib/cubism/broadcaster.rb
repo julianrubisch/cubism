@@ -14,6 +14,8 @@ module Cubism
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
         /cubicle-(?<block_key>.+)/ =~ element_id
+        next if Cubism.store[block_key].blank?
+
         block = Cubism.store[block_key].block
         view_context = Cubism.store[block_key].context
         html = view_context.capture(resource.present_users_for_element_id(element_id), &block)
