@@ -13,7 +13,7 @@ module Cubism
 
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
-        /cubicle-(?<block_key>.+)/ =~ element_id
+        /cubicle-(?<block_key>.+)-(?<user_resource_key>.+)/ =~ element_id
         next if Cubism.store[block_key].blank?
 
         block = Cubism.store[block_key].block
