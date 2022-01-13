@@ -31,5 +31,13 @@ module Cubism
     end
   end
 
-  BlockStoreItem = Struct.new(:context, :block, keyword_init: true)
+  BlockStoreItem = Struct.new(:block_location, :user_gid, :resource_gid, keyword_init: true) do
+    def user
+      GlobalID::Locator.locate self[:user_gid]
+    end
+
+    def resource
+      GlobalID::Locator.locate self[:resource_gid]
+    end
+  end
 end
