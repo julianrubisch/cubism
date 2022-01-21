@@ -1,7 +1,8 @@
 module Cubism
   class Preprocessor
     def initialize(source:, view_context:)
-      start_pos = /<%= cubicle_for/ =~ source
+      match_data = /<%=\s+cubicle_for.+\|.+\|\s+%>/.match(source)
+      start_pos = match_data.end(0)
       @source = source[start_pos..]
       @view_context = view_context
     end
@@ -19,7 +20,8 @@ module Cubism
     def do_parse
       ActionView::Template::Handlers::ERB::Erubi.new(@source).evaluate(@view_context)
     rescue SyntaxError
-      @source = @source[..-2]
+      end_at_end = /(<%\s+end\s+%\>)\z/.match(@source)
+      @source = end_at_end ? @source[..-(end_at_end[0].length + 1)] : @source[..-2]
       do_parse
     end
   end
