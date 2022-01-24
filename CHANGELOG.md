@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Multi worker setup [\#6](https://github.com/julianrubisch/cubism/pull/6) ([julianrubisch](https://github.com/julianrubisch))
 - Add value proposition to README [\#5](https://github.com/julianrubisch/cubism/pull/5) ([fractaledmind](https://github.com/fractaledmind))
 
 ## [v0.1.0.pre9](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre9) (2022-01-09)
