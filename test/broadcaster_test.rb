@@ -12,7 +12,7 @@ class BroadcasterTest < ActionView::TestCase
 
     Cubism.stubs(:store).returns({
       "foo" => Cubism::BlockStoreItem.new(block_location: "test:1", block_source: "<div><%= users.map(&:username).to_sentence %></div>", user_gid: users(:one).to_gid.to_s, resource_gid: posts(:one).to_gid.to_s),
-      "bar" => Cubism::BlockStoreItem.new(block_location: "test:1", block_source: "<div><%= users.map(&:username).to_sentence %></div>", user_gid: users(:two).to_gid.to_s, resource_gid: posts(:one).to_gid.to_s),
+      "bar" => Cubism::BlockStoreItem.new(block_location: "test:1", block_source: "<div><%= users.map(&:username).to_sentence %></div>", user_gid: users(:two).to_gid.to_s, resource_gid: posts(:one).to_gid.to_s)
     })
   end
 
@@ -40,9 +40,9 @@ def with_mocked_cable_ready(elements_with_users, resource)
     cable_ready_channel
       .expects(:inner_html)
       .with({
-              selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
-              html: "<div>#{user.username}</div>"
-            })
+        selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
+        html: "<div>#{user.username}</div>"
+      })
       .returns(operation_mock)
     cable_ready_mock.expects(:[]).with(element_id).returns(cable_ready_channel)
   end

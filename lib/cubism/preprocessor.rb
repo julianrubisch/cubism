@@ -22,7 +22,7 @@ module Cubism
     def do_parse
       ActionView::Template::Handlers::ERB::Erubi.new(@source).evaluate(@view_context)
     rescue SyntaxError
-      end_at_end = /(<%\s+end\s+%\>)\z/.match(@source)
+      end_at_end = /(<%\s+end\s+%>)\z/.match(@source)
       @source = end_at_end ? @source[..-(end_at_end[0].length + 1)] : @source[..-2]
       do_parse
     end
