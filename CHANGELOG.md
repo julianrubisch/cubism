@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/julianrubisch/cubism/tree/HEAD)
+## [v0.1.0.pre10](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre10) (2022-01-24)
 
-[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre9...HEAD)
+[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre9...v0.1.0.pre10)
 
 **Merged pull requests:**
 
