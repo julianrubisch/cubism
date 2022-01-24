@@ -14,6 +14,7 @@ Lightweight Resource-Based Presence Solution with CableReady.
 - [Usage](#usage)
 - [Installation](#installation)
 - [API](#api)
+- [Limitations](#limitations)
 - [Gotchas](#gotchas)
 - [Contributing](#contributing)
 - [License](#license)
@@ -55,6 +56,8 @@ Using the `cubicle_for` helper, you can set up a presence indicator. It will
   <%= users.map(&:username).join(", ")
 <% end %>
 ```
+
+**Important!** due to technical limitations the cubism block does _not_ act as a closure, i.e. it has _only_ access to the `users` variable passed to it - think of it more as a self-contained component.
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -98,6 +101,11 @@ The `cubicle_for` helper accepts the following options as keyword arguments:
 - `disappear_trigger`: a JavaScript event name (e.g. `:blur`) to use. (Can also be a singular string, which will be converted to an array). The default is `:disconnect`, i.e. remove a user form the present users list when the element disconnects from the DOM.
 - `trigger_root`: a CSS selector to attach the appear/disappear events to. Defaults to the `cubicle-element` itself.
 - `html_options` are passed to the TagBuilder.
+
+## Limitations
+
+### Supported Template Handlers
+- ERB
 
 ## Gotchas
 
