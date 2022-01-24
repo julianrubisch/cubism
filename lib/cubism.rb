@@ -14,5 +14,5 @@ module Cubism
 
   mattr_accessor :user_class, instance_writer: false, instance_reader: false
 
-  mattr_reader :store, instance_reader: false, default: Cubism::CubicleBlockStore.instance
+  mattr_accessor :store, instance_reader: false
 end
