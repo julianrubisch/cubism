@@ -17,6 +17,8 @@ module Cubism
       @source
     end
 
+    private
+
     def do_parse
       ActionView::Template::Handlers::ERB::Erubi.new(@source).evaluate(@view_context)
     rescue SyntaxError
