@@ -1,0 +1,16 @@
+default: &default
+  host: <%= ENV.fetch("REDIS_EVICTED_URL", "127.0.0.1") %>
+  port: 6379
+  timeout: 1
+
+development:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
+
+test:
+  <<: *default

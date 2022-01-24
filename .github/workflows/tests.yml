@@ -30,6 +30,10 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
+      - name: Set up Redis 4
+        uses: supercharge/redis-github-action@1.2.0
+        with:
+          redis-version: 4
       - name: Install sqlite headers
         run: |
           sudo apt-get update

@@ -14,11 +14,11 @@ module Cubism
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
         /cubicle-(?<block_key>.+)/ =~ element_id
-        next if Cubism.store[block_key].blank?
+        store_item = Cubism.store[block_key]
 
-        block = Cubism.store[block_key].block
-        view_context = Cubism.store[block_key].context
-        html = view_context.capture(resource.present_users_for_element_id(element_id), &block)
+        next if store_item.blank?
+
+        html = ApplicationController.render(inline: store_item.block_source, locals: {users: resource.present_users_for_element_id(element_id)})
 
         cable_ready[element_id].inner_html(
           selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
