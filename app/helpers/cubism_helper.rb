@@ -7,13 +7,14 @@ module CubismHelper
     resource_user_key = "#{resource.to_gid}:#{user.to_gid}"
     digested_block_key = ActiveSupport::Digest.hexdigest("#{block_location}:#{resource_user_key}")
 
-    store_item = Cubism::BlockStoreItem.new(
+    # the store item (identified by block location, resource, and user) might already be present
+    store_item = Cubism.store[digested_block_key] || Cubism::BlockStoreItem.new(
       block_location: block_location,
       resource_gid: resource.to_gid.to_s,
       user_gid: user.to_gid.to_s
     )
 
-    if Cubism.store[digested_block_key].blank? && !block_location.start_with?("inline template")
+    if Cubism.store[digested_block_key]&.block_source.blank? && !block_location.start_with?("inline template")
       lines = File.readlines(filename)[lineno - 1..]
 
       preprocessor = Cubism::Preprocessor.new(source: lines.join.squish, view_context: self)
