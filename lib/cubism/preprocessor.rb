@@ -1,7 +1,7 @@
 module Cubism
   class Preprocessor
     def initialize(source:, view_context:)
-      match_data = /<%=\s+cubicle_for.+\|.+\|\s+%>/.match(source)
+      match_data = /<%=\s+cubicle_for.+?(\|\w+\|)\s+%>/.match(source)
       start_pos = match_data&.end(0) || 0
       @source = source[start_pos..]
       @view_context = view_context
