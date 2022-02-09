@@ -21,6 +21,7 @@ module CubismHelper
       lines = File.readlines(filename)[lineno - 1..]
 
       preprocessor = Cubism::Preprocessor.new(source: lines.join.squish, view_context: self)
+      store_item.block_variable_name = preprocessor.block_variable_name
       store_item.block_source = preprocessor.process
     end
 

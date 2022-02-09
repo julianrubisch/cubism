@@ -18,7 +18,7 @@ module Cubism
 
         next if store_item.blank?
 
-        html = ApplicationController.render(inline: store_item.block_source, locals: {users: resource.present_users_for_element_id(element_id)})
+        html = ApplicationController.render(inline: store_item.block_source, locals: {"#{store_item.block_variable_name}": resource.present_users_for_element_id(element_id)})
 
         cable_ready[element_id].inner_html(
           selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",

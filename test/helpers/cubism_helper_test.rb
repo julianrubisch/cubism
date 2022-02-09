@@ -33,7 +33,7 @@ class CubismHelperTest < ActionView::TestCase
   end
 
   test "it stores the passed block in the global store" do
-    Nokogiri::HTML.fragment(cubicle_for(@post, @user) { |users| })
+    Nokogiri::HTML.fragment(cubicle_for(@post, @user) { |present_users| })
 
     assert_equal 1, Cubism.store.size
   end

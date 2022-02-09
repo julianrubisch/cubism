@@ -1,8 +1,11 @@
 module Cubism
   class Preprocessor
+    attr_reader :block_variable_name
+
     def initialize(source:, view_context:)
-      match_data = /<%=\s+cubicle_for.+?(\|\w+\|)\s+%>/.match(source)
+      match_data = /<%=\s+cubicle_for.+?\|(\w+)\|\s+%>/.match(source)
       start_pos = match_data&.end(0) || 0
+      @block_variable_name = match_data[1] if match_data
       @source = source[start_pos..]
       @view_context = view_context
     end

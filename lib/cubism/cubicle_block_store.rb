@@ -34,7 +34,7 @@ module Cubism
     end
   end
 
-  BlockStoreItem = Struct.new(:block_location, :block_source, :user_gid, :resource_gid, keyword_init: true) do
+  BlockStoreItem = Struct.new(:block_location, :block_source, :block_variable_name, :user_gid, :resource_gid, keyword_init: true) do
     def user
       GlobalID::Locator.locate self[:user_gid]
     end
@@ -48,7 +48,7 @@ module Cubism
     end
 
     def marshal_load(serialized_item)
-      %i[block_location block_source user_gid resource_gid].each do |arg|
+      members.each do |arg|
         send("#{arg}=", serialized_item[arg])
       end
     end
