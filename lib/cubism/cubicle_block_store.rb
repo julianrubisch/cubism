@@ -59,6 +59,8 @@ module Cubism
     end
 
     def parse!
+      return if block_location.start_with?("inline template")
+
       lines = File.readlines(@filename)[@lineno - 1..]
 
       preprocessor = Cubism::Preprocessor.new(source: lines.join.squish, view_context: view_context)

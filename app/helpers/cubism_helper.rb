@@ -15,10 +15,7 @@ module CubismHelper
 
     digested_block_key = store_item.digest
 
-    # the store item (identified by block location, resource, and user) might already be present
-    if Cubism.store[digested_block_key]&.block_source.blank? && !block_location.start_with?("inline template")
-      store_item.parse!
-    end
+    store_item.parse!
 
     Cubism.store[digested_block_key] = store_item
 
