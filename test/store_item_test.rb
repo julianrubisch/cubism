@@ -4,7 +4,7 @@ class StoreItemTest < ActiveSupport::TestCase
   FIXTURES_DIR = File.expand_path("./fixtures", __dir__)
 
   setup do
-    @cwd     = Dir.pwd
+    @cwd = Dir.pwd
     @tmp_dir = Dir.mktmpdir
 
     FileUtils.cp_r FIXTURES_DIR, @tmp_dir
@@ -100,8 +100,6 @@ class StoreItemTest < ActiveSupport::TestCase
   end
 
   def change_template(template)
-    File.open("#{template}.html.erb", "w") do |f|
-      f.write "\nTHIS WAS CHANGED!"
-    end
+    File.write("#{template}.html.erb", "\nTHIS WAS CHANGED!")
   end
 end
