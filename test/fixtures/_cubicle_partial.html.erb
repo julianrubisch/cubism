@@ -1,0 +1,6 @@
+<%= cubicle_for post, current_user do |users| %>
+  <span class="presence">
+    <%= users.map(&:username).to_sentence %>
+  <span>
+<% end %>
+

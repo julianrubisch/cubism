@@ -34,7 +34,22 @@ module Cubism
     end
   end
 
-  BlockStoreItem = Struct.new(:block_location, :block_source, :block_variable_name, :user_gid, :resource_gid, keyword_init: true) do
+  BlockStoreItem = Struct.new(
+    :block_location,
+    :block_source,
+    :block_variable_name,
+    :user_gid,
+    :resource_gid,
+    :view_context,
+    keyword_init: true
+  ) do
+    def initialize(*args)
+      super
+
+      @filename, @lineno = block_location.split(":")
+      @lineno = @lineno.to_i
+    end
+
     def user
       GlobalID::Locator.locate self[:user_gid]
     end
@@ -43,12 +58,26 @@ module Cubism
       GlobalID::Locator.locate self[:resource_gid]
     end
 
+    def parse!
+      lines = File.readlines(@filename)[@lineno - 1..]
+
+      preprocessor = Cubism::Preprocessor.new(source: lines.join.squish, view_context: view_context)
+      self.block_variable_name = preprocessor.block_variable_name
+      self.block_source = preprocessor.process
+    end
+
+    def digest
+      resource_user_key = [resource_gid, user_gid].join(":")
+
+      ActiveSupport::Digest.hexdigest("#{block_location}:#{File.read(@filename)}:#{resource_user_key}")
+    end
+
     def marshal_dump
-      to_h
+      to_h.except(:view_context)
     end
 
     def marshal_load(serialized_item)
-      members.each do |arg|
+      members.excluding(:view_context).each do |arg|
         send("#{arg}=", serialized_item[arg])
       end
     end
