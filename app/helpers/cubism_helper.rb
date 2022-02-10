@@ -4,11 +4,12 @@ module CubismHelper
   def cubicle_for(resource, user, html_options: {}, appear_trigger: :connect, disappear_trigger: nil, trigger_root: nil, exclude_current_user: true, &block)
     filename, lineno = block.source_location
     block_location = block.source_location.join(":")
+    file_contents = File.read(filename)
 
     resource_gid = resource.to_gid.to_s
     user_gid = user.to_gid.to_s
     resource_user_key = [resource_gid, user_gid].join(":")
-    digested_block_key = ActiveSupport::Digest.hexdigest("#{block_location}:#{resource_user_key}")
+    digested_block_key = ActiveSupport::Digest.hexdigest("#{block_location}:#{file_contents}:#{resource_user_key}")
 
     # the store item (identified by block location, resource, and user) might already be present
     store_item = Cubism.store[digested_block_key] || Cubism::BlockStoreItem.new(
