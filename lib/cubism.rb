@@ -14,5 +14,5 @@ module Cubism
 
   mattr_accessor :user_class, instance_writer: false, instance_reader: false
 
-  mattr_accessor :store, instance_reader: false
+  mattr_accessor :block_store, instance_reader: false
 end

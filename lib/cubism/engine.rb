@@ -1,7 +1,7 @@
 module Cubism
   class Engine < ::Rails::Engine
-    initializer "cubism.store" do
-      Cubism.store = Cubism::CubicleBlockStore.new
+    initializer "cubism.block_store" do
+      Cubism.block_store = Cubism::CubicleBlockStore.new
     end
   end
 end

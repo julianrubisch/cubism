@@ -7,7 +7,7 @@ class CubismHelperTest < ActionView::TestCase
   end
 
   teardown do
-    Cubism.store.clear
+    Cubism.block_store.clear
   end
 
   test "it displays a cubicle element for a resource" do
@@ -35,6 +35,6 @@ class CubismHelperTest < ActionView::TestCase
   test "it stores the passed block in the global store" do
     Nokogiri::HTML.fragment(cubicle_for(@post, @user) { |present_users| })
 
-    assert_equal 1, Cubism.store.size
+    assert_equal 1, Cubism.block_store.size
   end
 end

@@ -17,7 +17,7 @@ module CubismHelper
 
     store_item.parse!
 
-    Cubism.store[digested_block_key] = store_item
+    Cubism.block_store[digested_block_key] = store_item
 
     tag.cubicle_element(
       identifier: signed_stream_identifier(resource_gid),

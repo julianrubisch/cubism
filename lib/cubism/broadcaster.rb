@@ -14,7 +14,7 @@ module Cubism
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
         /cubicle-(?<block_key>.+)/ =~ element_id
-        store_item = Cubism.store[block_key]
+        store_item = Cubism.block_store[block_key]
 
         next if store_item.blank?
 

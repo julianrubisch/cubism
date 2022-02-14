@@ -10,7 +10,7 @@ class BroadcasterTest < ActionView::TestCase
     @post.stubs(:present_users_for_element_id).with("cubicle-bar").returns([users(:two)])
     @broadcaster = Cubism::Broadcaster.new(resource: @post)
 
-    Cubism.stubs(:store).returns({
+    Cubism.stubs(:block_store).returns({
       "foo" => Cubism::BlockStoreItem.new(block_location: "test:1", block_source: "<div><%= users.map(&:username).to_sentence %></div>", block_variable_name: "users", user_gid: users(:one).to_gid.to_s, resource_gid: posts(:one).to_gid.to_s),
       "bar" => Cubism::BlockStoreItem.new(block_location: "test:1", block_source: "<div><%= present_users.map(&:username).to_sentence %></div>", block_variable_name: "present_users", user_gid: users(:two).to_gid.to_s, resource_gid: posts(:one).to_gid.to_s)
     })
