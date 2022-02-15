@@ -44,7 +44,7 @@ module Cubism
   end
 
   # Container for cubicle blocks
-  BlockStoreItem = Struct.new(
+  BlockContainer = Struct.new(
     :block_location,
     :block_source,
     :user_gid,

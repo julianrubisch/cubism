@@ -10,16 +10,16 @@ module CubismHelper
 
     resource_gid = resource.to_gid.to_s
 
-    store_item = Cubism::BlockStoreItem.new(
+    block_container = Cubism::BlockContainer.new(
       block_location: block_location,
       block_source: block_source,
       resource_gid: resource_gid,
       user_gid: user.to_gid.to_s
     )
 
-    digested_block_key = store_item.digest
+    digested_block_key = block_container.digest
 
-    Cubism.block_store.fetch(digested_block_key, store_item)
+    Cubism.block_store.fetch(digested_block_key, block_container)
 
     tag.cubicle_element(
       identifier: signed_stream_identifier(resource_gid),

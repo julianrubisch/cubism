@@ -14,11 +14,11 @@ module Cubism
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
         /cubicle-(?<block_key>.+)/ =~ element_id
-        store_item = Cubism.block_store[block_key]
+        block_container = Cubism.block_store[block_key]
 
-        next if store_item.blank?
+        next if block_container.blank?
 
-        block_source = store_item.block_source
+        block_source = block_container.block_source
 
         html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": resource.present_users_for_element_id(element_id)})
 

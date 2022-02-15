@@ -1,6 +1,6 @@
 require "test_helper"
 
-class BlockStoreItemTest < ActiveSupport::TestCase
+class BlockContainerTest < ActiveSupport::TestCase
   FIXTURES_DIR = File.expand_path("./fixtures", __dir__)
 
   setup do
@@ -19,10 +19,10 @@ class BlockStoreItemTest < ActiveSupport::TestCase
     FileUtils.rm_r @tmp_dir
   end
 
-  test "block store item digest changes when file contents change" do
+  test "block container digest changes when file contents change" do
     template = "fixtures/_cubicle_partial"
 
-    digest1 = Cubism::BlockStoreItem.new(
+    digest1 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: @post.to_gid.to_s,
       user_gid: @user.to_gid.to_s
@@ -30,7 +30,7 @@ class BlockStoreItemTest < ActiveSupport::TestCase
 
     change_template(template)
 
-    digest2 = Cubism::BlockStoreItem.new(
+    digest2 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: @post.to_gid.to_s,
       user_gid: @user.to_gid.to_s
@@ -39,16 +39,16 @@ class BlockStoreItemTest < ActiveSupport::TestCase
     refute_equal digest1, digest2
   end
 
-  test "block store item digest changes when user changes" do
+  test "block container digest changes when user changes" do
     template = "fixtures/_cubicle_partial"
 
-    digest1 = Cubism::BlockStoreItem.new(
+    digest1 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: @post.to_gid.to_s,
       user_gid: @user.to_gid.to_s
     ).digest
 
-    digest2 = Cubism::BlockStoreItem.new(
+    digest2 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: @post.to_gid.to_s,
       user_gid: users(:two).to_gid.to_s
@@ -57,16 +57,16 @@ class BlockStoreItemTest < ActiveSupport::TestCase
     refute_equal digest1, digest2
   end
 
-  test "block store item digest changes when resource changes" do
+  test "block container digest changes when resource changes" do
     template = "fixtures/_cubicle_partial"
 
-    digest1 = Cubism::BlockStoreItem.new(
+    digest1 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: @post.to_gid.to_s,
       user_gid: @user.to_gid.to_s
     ).digest
 
-    digest2 = Cubism::BlockStoreItem.new(
+    digest2 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: posts(:two).to_gid.to_s,
       user_gid: @user.to_gid.to_s
@@ -75,16 +75,16 @@ class BlockStoreItemTest < ActiveSupport::TestCase
     refute_equal digest1, digest2
   end
 
-  test "block store item digest changes when block_location changes" do
+  test "block container digest changes when block_location changes" do
     template = "fixtures/_cubicle_partial"
 
-    digest1 = Cubism::BlockStoreItem.new(
+    digest1 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:1",
       resource_gid: @post.to_gid.to_s,
       user_gid: @user.to_gid.to_s
     ).digest
 
-    digest2 = Cubism::BlockStoreItem.new(
+    digest2 = Cubism::BlockContainer.new(
       block_location: "#{template_tmp_path(template)}.html.erb:2",
       resource_gid: @post.to_gid.to_s,
       user_gid: @user.to_gid.to_s
