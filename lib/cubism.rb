@@ -3,7 +3,7 @@ require "kredis"
 require "cubism/version"
 require "cubism/engine"
 require "cubism/broadcaster"
-require "cubism/cubicle_block_store"
+require "cubism/cubicle_store"
 require "cubism/preprocessor"
 
 module Cubism
@@ -14,5 +14,6 @@ module Cubism
 
   mattr_accessor :user_class, instance_writer: false, instance_reader: false
 
-  mattr_accessor :store, instance_reader: false
+  mattr_accessor :block_store, instance_reader: false
+  mattr_accessor :source_store, instance_reader: false
 end
