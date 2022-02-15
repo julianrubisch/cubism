@@ -3,21 +3,23 @@ module CubismHelper
 
   def cubicle_for(resource, user, html_options: {}, appear_trigger: :connect, disappear_trigger: nil, trigger_root: nil, exclude_current_user: true, &block)
     block_location = block.source_location.join(":")
+    block_source = Cubism::BlockSource.find_or_create(
+      location: block_location,
+      view_context: self
+    )
 
     resource_gid = resource.to_gid.to_s
 
     store_item = Cubism::BlockStoreItem.new(
       block_location: block_location,
+      block_source: block_source,
       resource_gid: resource_gid,
-      user_gid: user.to_gid.to_s,
-      view_context: self
+      user_gid: user.to_gid.to_s
     )
 
     digested_block_key = store_item.digest
 
-    store_item.parse!
-
-    Cubism.block_store[digested_block_key] = store_item
+    Cubism.block_store.fetch(digested_block_key, store_item)
 
     tag.cubicle_element(
       identifier: signed_stream_identifier(resource_gid),

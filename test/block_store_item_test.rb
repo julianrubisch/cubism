@@ -1,6 +1,6 @@
 require "test_helper"
 
-class StoreItemTest < ActiveSupport::TestCase
+class BlockStoreItemTest < ActiveSupport::TestCase
   FIXTURES_DIR = File.expand_path("./fixtures", __dir__)
 
   setup do
@@ -19,7 +19,7 @@ class StoreItemTest < ActiveSupport::TestCase
     FileUtils.rm_r @tmp_dir
   end
 
-  test "digest changes when file contents change" do
+  test "block store item digest changes when file contents change" do
     template = "fixtures/_cubicle_partial"
 
     digest1 = Cubism::BlockStoreItem.new(
@@ -39,7 +39,7 @@ class StoreItemTest < ActiveSupport::TestCase
     refute_equal digest1, digest2
   end
 
-  test "digest changes when user changes" do
+  test "block store item digest changes when user changes" do
     template = "fixtures/_cubicle_partial"
 
     digest1 = Cubism::BlockStoreItem.new(
@@ -57,7 +57,7 @@ class StoreItemTest < ActiveSupport::TestCase
     refute_equal digest1, digest2
   end
 
-  test "digest changes when resource changes" do
+  test "block store item digest changes when resource changes" do
     template = "fixtures/_cubicle_partial"
 
     digest1 = Cubism::BlockStoreItem.new(
@@ -75,7 +75,7 @@ class StoreItemTest < ActiveSupport::TestCase
     refute_equal digest1, digest2
   end
 
-  test "digest changes when block_location changes" do
+  test "block store item digest changes when block_location changes" do
     template = "fixtures/_cubicle_partial"
 
     digest1 = Cubism::BlockStoreItem.new(
