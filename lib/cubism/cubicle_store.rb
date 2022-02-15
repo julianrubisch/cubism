@@ -72,13 +72,15 @@ module Cubism
     end
 
     def marshal_dump
-      to_h
+      to_h.merge(block_source: block_source.digest)
     end
 
     def marshal_load(serialized_item)
-      members.each do |arg|
+      members.excluding(:block_source).each do |arg|
         send("#{arg}=", serialized_item[arg])
       end
+
+      self.block_source = Cubism.source_store[serialized_item[:block_source]]
     end
   end
 
