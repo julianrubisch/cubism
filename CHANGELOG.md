@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre10...HEAD)
 
+**Closed issues:**
+
+- Async DOM mutations [\#7](https://github.com/julianrubisch/cubism/issues/7)
+
 **Merged pull requests:**
 
+- Async dom mutations [\#10](https://github.com/julianrubisch/cubism/pull/10) ([julianrubisch](https://github.com/julianrubisch))
 - Reuse block source [\#8](https://github.com/julianrubisch/cubism/pull/8) ([julianrubisch](https://github.com/julianrubisch))
 
 ## [v0.1.0.pre10](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre10) (2022-01-24)
