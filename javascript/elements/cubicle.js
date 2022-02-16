@@ -1,4 +1,5 @@
 import CableReady, { SubscribingElement } from "cable_ready";
+import { debounce } from "cable_ready/javascript/utils";
 
 export class Cubicle extends SubscribingElement {
   constructor() {
@@ -18,6 +19,8 @@ export class Cubicle extends SubscribingElement {
 
   async connectedCallback() {
     if (this.preview) return;
+
+    this.appear = debounce(this.appear.bind(this), 20);
 
     this.appearTriggers = this.getAttribute("appear-trigger")
       ? this.getAttribute("appear-trigger").split(",")
