@@ -66,6 +66,10 @@ module Cubism
       GlobalID::Locator.locate self[:resource_gid]
     end
 
+    def scope
+      self[:scope] || ""
+    end
+
     def digest
       resource_user_key = [resource_gid, user_gid, scope].join(":")
 
