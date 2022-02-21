@@ -71,7 +71,7 @@ module Cubism
     end
 
     def digest
-      resource_user_key = [resource_gid, user_gid, scope].join(":")
+      resource_user_key = [resource_gid, user_gid].join(":")
 
       ActiveSupport::Digest.hexdigest("#{block_location}:#{File.read(@filename)}:#{resource_user_key}")
     end

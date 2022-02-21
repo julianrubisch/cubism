@@ -1,7 +1,7 @@
 module CubismHelper
   include CableReady::StreamIdentifier
 
-  def cubicle_for(resource, user, scope: nil, html_options: {}, appear_trigger: :connect, disappear_trigger: nil, trigger_root: nil, exclude_current_user: true, &block)
+  def cubicle_for(resource, user, scope: "", html_options: {}, appear_trigger: :connect, disappear_trigger: nil, trigger_root: nil, exclude_current_user: true, &block)
     block_location = block.source_location.join(":")
     block_source = Cubism::BlockSource.find_or_create(
       location: block_location,

@@ -20,8 +20,6 @@ module Cubism
 
         present_users = resource.present_users_for_element_id_and_scope(element_id, block_container.scope)
 
-        next if present_users.empty?
-
         block_source = block_container.block_source
 
         html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": present_users})
