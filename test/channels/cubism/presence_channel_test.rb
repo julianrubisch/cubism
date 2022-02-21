@@ -9,7 +9,7 @@ class Cubism::PresenceChannelTest < ActionCable::Channel::TestCase
 
     Post.any_instance.stubs(:cubicle_element_ids).returns([])
     Post.any_instance.stubs(:excluded_user_id_for_element_id).returns({})
-    Post.any_instance.stubs(:present_users).returns(Set[])
+    Post.any_instance.stubs(:present_users).returns({})
   end
 
   test "rejects a subscription for invalid identifiers" do
@@ -35,18 +35,27 @@ class Cubism::PresenceChannelTest < ActionCable::Channel::TestCase
 
   test "adds a user to the present users list when appear is called" do
     subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar"
-
     perform :appear
 
-    assert_equal [@user.id], @post.present_users.to_a
+    assert_equal [@user.id], @post.present_users[""].to_a
   end
 
-  test "removes a user from the present users list when appear is called" do
+  test "adds a user to a scope in the present users list when appear is called with a scope parameter" do
+    subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: :edit
+    perform :appear
+
+    subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: :show
+
+    assert_equal [@user.id], @post.present_users[:edit].to_a
+    assert_equal [], @post.present_users[:show].to_a
+  end
+
+  test "removes a user from the present users list when disappear is called" do
     subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar"
 
     perform :appear
 
-    assert_equal [@user.id], @post.present_users.to_a
+    assert_equal [@user.id], @post.present_users[""].to_a
 
     # perform :disappear
 
