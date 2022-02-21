@@ -37,17 +37,20 @@ class Cubism::PresenceChannelTest < ActionCable::Channel::TestCase
     subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar"
     perform :appear
 
-    assert_equal [@user.id], @post.present_users[""].to_a
+    assert_equal [@user.id], @post.present_users_for_scope("").to_a
   end
 
   test "adds a user to a scope in the present users list when appear is called with a scope parameter" do
+    assert_equal [], @post.present_users_for_scope(:edit).to_a
+    assert_equal [], @post.present_users_for_scope(:show).to_a
+
     subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: :edit
     perform :appear
 
     subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: :show
 
-    assert_equal [@user.id], @post.present_users[:edit].to_a
-    assert_equal [], @post.present_users[:show].to_a
+    assert_equal [@user.id], @post.present_users_for_scope(:edit).to_a
+    assert_equal [], @post.present_users_for_scope(:show).to_a
   end
 
   test "removes a user from the present users list when disappear is called" do
@@ -55,10 +58,10 @@ class Cubism::PresenceChannelTest < ActionCable::Channel::TestCase
 
     perform :appear
 
-    assert_equal [@user.id], @post.present_users[""].to_a
+    assert_equal [@user.id], @post.present_users_for_scope("").to_a
 
-    # perform :disappear
+    perform :disappear
 
-    # assert_equal [], @post.present_users.to_a
+    assert_equal [], @post.present_users_for_scope("").to_a
   end
 end

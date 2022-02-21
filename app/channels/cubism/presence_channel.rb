@@ -21,11 +21,11 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def appear
-    resource.present_users[scope].add(user.id)
+    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).add(user.id), scope)
   end
 
   def disappear
-    resource.present_users[scope].remove(user.id)
+    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).delete(user.id), scope)
   end
 
   private
