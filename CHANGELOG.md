@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/julianrubisch/cubism/tree/HEAD)
 
-[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre10...HEAD)
+[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre11...HEAD)
+
+**Merged pull requests:**
+
+- Scope elements [\#11](https://github.com/julianrubisch/cubism/pull/11) ([julianrubisch](https://github.com/julianrubisch))
+
+## [v0.1.0.pre11](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre11) (2022-02-16)
+
+[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre10...v0.1.0.pre11)
 
 **Closed issues:**
 
