@@ -120,6 +120,7 @@ export class Cubicle extends SubscribingElement {
         identifier: this.getAttribute("identifier"),
         user: this.getAttribute("user"),
         element_id: this.id,
+        scope: this.getAttribute("scope"),
         exclude_current_user:
           this.getAttribute("exclude-current-user") === "true",
       },

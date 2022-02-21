@@ -49,6 +49,7 @@ module Cubism
     :block_source,
     :user_gid,
     :resource_gid,
+    :scope,
     keyword_init: true
   ) do
     def initialize(*args)
@@ -63,6 +64,10 @@ module Cubism
 
     def resource
       GlobalID::Locator.locate self[:resource_gid]
+    end
+
+    def scope
+      self[:scope] || ""
     end
 
     def digest

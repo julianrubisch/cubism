@@ -1,7 +1,7 @@
 module CubismHelper
   include CableReady::StreamIdentifier
 
-  def cubicle_for(resource, user, html_options: {}, appear_trigger: :connect, disappear_trigger: nil, trigger_root: nil, exclude_current_user: true, &block)
+  def cubicle_for(resource, user, scope: "", html_options: {}, appear_trigger: :connect, disappear_trigger: nil, trigger_root: nil, exclude_current_user: true, &block)
     block_location = block.source_location.join(":")
     block_source = Cubism::BlockSource.find_or_create(
       location: block_location,
@@ -14,7 +14,8 @@ module CubismHelper
       block_location: block_location,
       block_source: block_source,
       resource_gid: resource_gid,
-      user_gid: user.to_gid.to_s
+      user_gid: user.to_gid.to_s,
+      scope: scope
     )
 
     digested_block_key = block_container.digest
@@ -27,6 +28,7 @@ module CubismHelper
       "appear-trigger": Array(appear_trigger).join(","),
       "disappear-trigger": disappear_trigger,
       "trigger-root": trigger_root,
+      scope: signed_stream_identifier(scope),
       id: "cubicle-#{digested_block_key}",
       "exclude-current-user": exclude_current_user,
       **html_options

@@ -18,15 +18,21 @@ module Cubism
 
         next if block_container.blank?
 
+        present_users = resource.present_users_for_element_id_and_scope(element_id, block_container.scope)
+
         block_source = block_container.block_source
 
-        html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": resource.present_users_for_element_id(element_id)})
+        html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": present_users})
+
+        selector = "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{signed_stream_identifier(block_container.scope)}']"
 
         cable_ready[element_id].inner_html(
-          selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
+          selector: selector,
           html: html
-        ).broadcast
+        )
       end
+
+      cable_ready.broadcast
     end
   end
 end

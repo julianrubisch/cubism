@@ -20,11 +20,11 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def appear
-    resource.present_users.add(user.id)
+    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).add(user.id), scope)
   end
 
   def disappear
-    resource.present_users.remove(user.id)
+    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).delete(user.id), scope)
   end
 
   private
@@ -48,5 +48,9 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
 
   def url
     params[:url]
+  end
+
+  def scope
+    verified_stream_identifier(params[:scope]) || ""
   end
 end
