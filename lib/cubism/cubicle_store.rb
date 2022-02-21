@@ -49,6 +49,7 @@ module Cubism
     :block_source,
     :user_gid,
     :resource_gid,
+    :scope,
     keyword_init: true
   ) do
     def initialize(*args)
@@ -66,7 +67,7 @@ module Cubism
     end
 
     def digest
-      resource_user_key = [resource_gid, user_gid].join(":")
+      resource_user_key = [resource_gid, user_gid, scope].join(":")
 
       ActiveSupport::Digest.hexdigest("#{block_location}:#{File.read(@filename)}:#{resource_user_key}")
     end
