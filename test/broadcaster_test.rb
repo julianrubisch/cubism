@@ -28,7 +28,7 @@ class BroadcasterTest < ActionView::TestCase
     with_mocked_cable_ready({"cubicle-foo" => {"" => users(:one)}, "cubicle-bar" => {"" => users(:two)}}, @post) do |cable_ready_mock|
       @broadcaster = Cubism::Broadcaster.new(resource: @post)
 
-      @broadcaster.expects(:cable_ready).returns(cable_ready_mock).twice
+      @broadcaster.expects(:cable_ready).returns(cable_ready_mock).times(3)
 
       @broadcaster.broadcast
     end
@@ -38,7 +38,7 @@ class BroadcasterTest < ActionView::TestCase
     with_mocked_cable_ready({"cubicle-baz" => {"edit" => users(:one)}}, @post_2) do |cable_ready_mock|
       @broadcaster = Cubism::Broadcaster.new(resource: @post_2)
 
-      @broadcaster.expects(:cable_ready).returns(cable_ready_mock).once
+      @broadcaster.expects(:cable_ready).returns(cable_ready_mock).twice
 
       @broadcaster.broadcast
     end
@@ -46,10 +46,8 @@ class BroadcasterTest < ActionView::TestCase
 end
 
 def with_mocked_cable_ready(elements_with_users_and_scopes, resource)
-  operation_mock = mock
-  operation_mock.expects(:broadcast).times(elements_with_users_and_scopes.keys.size)
-
   cable_ready_mock = mock
+  cable_ready_mock.expects(:broadcast).once
 
   elements_with_users_and_scopes.each do |element_id, scoped_users|
     cable_ready_channel = mock
@@ -60,7 +58,6 @@ def with_mocked_cable_ready(elements_with_users_and_scopes, resource)
           selector: "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{signed_stream_identifier(scope)}']",
           html: "<div>#{user.username}</div>"
         })
-        .returns(operation_mock)
     end
     cable_ready_mock.expects(:[]).with(element_id).returns(cable_ready_channel)
   end

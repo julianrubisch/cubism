@@ -29,8 +29,10 @@ module Cubism
         cable_ready[element_id].inner_html(
           selector: selector,
           html: html
-        ).broadcast
+        )
       end
+
+      cable_ready.broadcast
     end
   end
 end
