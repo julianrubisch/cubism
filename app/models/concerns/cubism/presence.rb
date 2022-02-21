@@ -19,8 +19,8 @@ module Cubism::Presence
     present_users[scope] = Marshal.dump(Set.new(user_ids))
   end
 
-  def present_users_for_element_id(element_id)
-    users = Cubism.user_class.find(present_users.members)
+  def present_users_for_element_id_and_scope(element_id, scope = "")
+    users = Cubism.user_class.find(present_users_for_scope(scope).to_a)
     users.reject! { |user| user.id == excluded_user_id_for_element_id[element_id].to_i }
 
     users
