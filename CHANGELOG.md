@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre11...HEAD)
 
+**Closed issues:**
+
+- Scope leads to element not found errors [\#12](https://github.com/julianrubisch/cubism/issues/12)
+
 **Merged pull requests:**
 
+- Fix scoping [\#13](https://github.com/julianrubisch/cubism/pull/13) ([julianrubisch](https://github.com/julianrubisch))
 - Scope elements [\#11](https://github.com/julianrubisch/cubism/pull/11) ([julianrubisch](https://github.com/julianrubisch))
 
 ## [v0.1.0.pre11](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre11) (2022-02-16)
