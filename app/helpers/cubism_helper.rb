@@ -28,7 +28,7 @@ module CubismHelper
       "appear-trigger": Array(appear_trigger).join(","),
       "disappear-trigger": disappear_trigger,
       "trigger-root": trigger_root,
-      scope: signed_stream_identifier(scope),
+      scope: scope,
       id: "cubicle-#{digested_block_key}",
       "exclude-current-user": exclude_current_user,
       **html_options

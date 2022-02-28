@@ -24,7 +24,7 @@ module Cubism
 
         html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": present_users})
 
-        selector = "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{signed_stream_identifier(block_container.scope)}']"
+        selector = "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{block_container.scope}']"
 
         cable_ready[element_id].inner_html(
           selector: selector,

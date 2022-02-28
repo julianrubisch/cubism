@@ -44,10 +44,10 @@ class Cubism::PresenceChannelTest < ActionCable::Channel::TestCase
     assert_equal [], @post.present_users_for_scope("edit").to_a
     assert_equal [], @post.present_users_for_scope("show").to_a
 
-    subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: signed_stream_identifier("edit")
+    subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: "edit"
     perform :appear
 
-    subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: signed_stream_identifier("show")
+    subscribe identifier: signed_stream_identifier(@post.to_gid.to_s), user: @user.to_sgid.to_s, element_id: "bar", scope: "show"
 
     assert_equal [@user.id], @post.present_users_for_scope("edit").to_a
     assert_equal [], @post.present_users_for_scope("show").to_a

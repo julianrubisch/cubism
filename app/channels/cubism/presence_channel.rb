@@ -51,6 +51,6 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def scope
-    verified_stream_identifier(params[:scope]) || ""
+    params[:scope] || ""
   end
 end
