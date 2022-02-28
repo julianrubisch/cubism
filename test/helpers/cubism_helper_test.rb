@@ -16,7 +16,6 @@ class CubismHelperTest < ActionView::TestCase
     cubicle_element = element.children.first
 
     assert_equal "cubicle-element", cubicle_element.name
-    assert_equal @user, GlobalID::Locator.locate_signed(cubicle_element["user"])
     assert_equal "connect", cubicle_element["appear-trigger"]
     assert_nil cubicle_element["disappear-trigger"]
     assert_nil cubicle_element["trigger-root"]

@@ -3,7 +3,7 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
 
   def subscribed
     if resource.present?
-      stream_from params[:element_id]
+      stream_from element_id
       resource.cubicle_element_ids << element_id
       resource.excluded_user_id_for_element_id[element_id] = user.id if exclude_current_user?
     else
@@ -35,7 +35,15 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def user
-    GlobalID::Locator.locate_signed(params[:user])
+    block_container.user
+  end
+
+  def scope
+    block_container.scope
+  end
+
+  def block_container
+    Cubism.block_store[element_id]
   end
 
   def exclude_current_user?
@@ -43,14 +51,11 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def element_id
-    params[:element_id]
+    /cubicle-(?<element_id>.+)/ =~ params[:element_id]
+    element_id
   end
 
   def url
     params[:url]
-  end
-
-  def scope
-    verified_stream_identifier(params[:scope]) || ""
   end
 end
