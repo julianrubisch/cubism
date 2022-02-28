@@ -118,7 +118,6 @@ export class Cubicle extends SubscribingElement {
       {
         channel: this.channelName,
         identifier: this.getAttribute("identifier"),
-        user: this.getAttribute("user"),
         element_id: this.id,
         scope: this.getAttribute("scope"),
         exclude_current_user:

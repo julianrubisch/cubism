@@ -24,7 +24,6 @@ module CubismHelper
 
     tag.cubicle_element(
       identifier: signed_stream_identifier(resource_gid),
-      user: user.to_sgid.to_s,
       "appear-trigger": Array(appear_trigger).join(","),
       "disappear-trigger": disappear_trigger,
       "trigger-root": trigger_root,

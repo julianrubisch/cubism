@@ -13,8 +13,7 @@ module Cubism
 
     def broadcast
       resource.cubicle_element_ids.to_a.each do |element_id|
-        /cubicle-(?<block_key>.+)/ =~ element_id
-        block_container = Cubism.block_store[block_key]
+        block_container = Cubism.block_store[element_id]
 
         next if block_container.blank?
 
@@ -24,7 +23,7 @@ module Cubism
 
         html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": present_users})
 
-        selector = "cubicle-element##{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{block_container.scope}']"
+        selector = "cubicle-element#cubicle-#{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{block_container.scope}']"
 
         cable_ready[element_id].inner_html(
           selector: selector,
