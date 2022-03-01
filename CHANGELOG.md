@@ -7,9 +7,11 @@
 **Closed issues:**
 
 - Scope leads to element not found errors [\#12](https://github.com/julianrubisch/cubism/issues/12)
+- Add IntersectionObserver as appear trigger [\#9](https://github.com/julianrubisch/cubism/issues/9)
 
 **Merged pull requests:**
 
+- Intersect appear trigger [\#14](https://github.com/julianrubisch/cubism/pull/14) ([julianrubisch](https://github.com/julianrubisch))
 - Fix scoping [\#13](https://github.com/julianrubisch/cubism/pull/13) ([julianrubisch](https://github.com/julianrubisch))
 - Scope elements [\#11](https://github.com/julianrubisch/cubism/pull/11) ([julianrubisch](https://github.com/julianrubisch))
 
