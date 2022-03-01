@@ -55,7 +55,7 @@ def with_mocked_cable_ready(elements_with_users_and_scopes, resource)
       cable_ready_channel
         .expects(:inner_html)
         .with({
-          selector: "cubicle-element#cubicle-#{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}'][scope='#{scope}']",
+          selector: "cubicle-element#cubicle-#{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']",
           html: "<div>#{user.username}</div>"
         })
     end
