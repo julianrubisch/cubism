@@ -98,8 +98,8 @@ The `cubicle_for` helper accepts the following options as keyword arguments:
 
 - `scope`: declare a scope in which presence indicators should appear. For example, if you want to divide between index and show views, do `scope: :index` and `scope: :show` respectively (default: `""`).
 - `exclude_current_user (true|false)`: Whether or not to exclude the current user from the list of present users broadcasted to the view. Useful e.g. for "typing..." indicators (default: `true`).
-- `appear_trigger`: JavaScript event names (e.g. `["focus", "debounced:input]`) to use. (Can also be a singular string, which will be converted to an array). The default is `:connect`, i.e. register a user as "appeared"/"present" when the element connects to the DOM.
-- `disappear_trigger`: a JavaScript event name (e.g. `:blur`) to use. (Can also be a singular string, which will be converted to an array). The default is `:disconnect`, i.e. remove a user form the present users list when the element disconnects from the DOM.
+- `appear_trigger`: JavaScript event names (e.g. `["focus", "debounced:input]`) to use. (Can also be a singular string, which will be converted to an array). The default is `:connect`, i.e. register a user as "appeared"/"present" when the element connects to the DOM. Another special value is `:intersect`, which fires when the `trigger_root` comes into the viewport.
+- `disappear_trigger`: a JavaScript event name (e.g. `:blur`) to use. (Can also be a singular string, which will be converted to an array). The default is `:disconnect`, i.e. remove a user form the present users list when the element disconnects from the DOM. Analoguous to above, `:intersect` means that `disappear` will fire when the `trigger_root` is scrolled out of the viewport.
 - `trigger_root`: a CSS selector to attach the appear/disappear events to. Defaults to the `cubicle-element` itself.
 - `html_options` are passed to the TagBuilder.
 
