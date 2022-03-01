@@ -16,12 +16,13 @@ export class Cubicle extends SubscribingElement {
 `
 
     this.triggerRoot = this
+    this.present = false
   }
 
   async connectedCallback () {
     if (this.preview) return
 
-    this.appear = debounce(this.appear.bind(this), 20)
+    this.appear = debounce(this.appear.bind(this), 50)
 
     this.appearTriggers = this.getAttribute('appear-trigger')
       ? this.getAttribute('appear-trigger').split(',')
@@ -34,6 +35,24 @@ export class Cubicle extends SubscribingElement {
     this.consumer = await CableReady.consumer
 
     this.channel = this.createSubscription()
+
+    this.appearanceIntersectionObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.target !== this.triggerRoot) return
+          if (entry.isIntersecting) {
+            if (!this.present) {
+              this.appear()
+            }
+          } else {
+            if (this.present) {
+              this.disappear()
+            }
+          }
+        })
+      },
+      { threshold: 0 }
+    )
 
     this.mutationObserver = new MutationObserver((mutationsList, observer) => {
       if (this.triggerRootSelector) {
@@ -67,34 +86,71 @@ export class Cubicle extends SubscribingElement {
     }
 
     this.appearTriggers
-      .filter(eventName => eventName !== 'connect')
+      .filter(eventName => eventName === 'intersect')
+      .forEach(() => {
+        this.appearanceIntersectionObserver.observe(this.triggerRoot)
+      })
+
+    this.appearTriggers
+      .filter(eventName => eventName !== 'connect' && eventName !== 'intersect')
       .forEach(eventName => {
         this.triggerRoot.addEventListener(eventName, this.appear.bind(this))
       })
 
-    this.disappearTriggers.forEach(eventName => {
-      this.triggerRoot.addEventListener(eventName, this.disappear.bind(this))
-    })
+    this.disappearTriggers
+      .filter(
+        eventName => eventName !== 'disconnect' && eventName !== 'intersect'
+      )
+      .forEach(eventName => {
+        this.triggerRoot.addEventListener(eventName, this.disappear.bind(this))
+      })
+
+    this.disappearTriggers
+      .filter(eventName => eventName === 'intersect')
+      .forEach(() => {})
   }
 
   uninstall () {
     this.appearTriggers
-      .filter(eventName => eventName !== 'connect')
+      .filter(eventName => eventName === 'intersect')
+      .forEach(() => {
+        this.appearanceIntersectionObserver.unobserve(this.triggerRoot)
+      })
+
+    this.appearTriggers
+      .filter(eventName => eventName !== 'connect' && eventName !== 'intersect')
       .forEach(eventName => {
         this.triggerRoot.removeEventListener(eventName, this.appear.bind(this))
       })
 
-    this.disappearTriggers.forEach(eventName => {
-      this.triggerRoot.removeEventListener(eventName, this.disappear.bind(this))
-    })
+    this.disappearTriggers
+      .filter(eventName => eventName === 'intersect')
+      .forEach(() => {})
+
+    this.disappearTriggers
+      .filter(
+        eventName => eventName !== 'disconnect' && eventName !== 'intersect'
+      )
+      .forEach(eventName => {
+        this.triggerRoot.removeEventListener(
+          eventName,
+          this.disappear.bind(this)
+        )
+      })
   }
 
   appear () {
-    if (this.channel) this.channel.perform('appear')
+    if (this.channel) {
+      this.present = true
+      this.channel.perform('appear')
+    }
   }
 
   disappear () {
-    if (this.channel) this.channel.perform('disappear')
+    if (this.channel) {
+      this.present = false
+      this.channel.perform('disappear')
+    }
   }
 
   performOperations (data) {

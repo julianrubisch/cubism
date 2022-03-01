@@ -20,11 +20,11 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def appear
-    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).add(user.id), scope)
+    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).add(user.id), scope) if scope
   end
 
   def disappear
-    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).delete(user.id), scope)
+    resource.set_present_users_for_scope(resource.present_users_for_scope(scope).delete(user.id), scope) if scope
   end
 
   private
@@ -35,11 +35,11 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def user
-    block_container.user
+    block_container&.user
   end
 
   def scope
-    block_container.scope
+    block_container&.scope
   end
 
   def block_container
