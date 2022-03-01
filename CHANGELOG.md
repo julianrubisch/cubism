@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/julianrubisch/cubism/tree/HEAD)
+## [v0.1.0.pre12](https://github.com/julianrubisch/cubism/tree/v0.1.0.pre12) (2022-03-01)
 
-[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre11...HEAD)
+[Full Changelog](https://github.com/julianrubisch/cubism/compare/v0.1.0.pre11...v0.1.0.pre12)
 
 **Closed issues:**
 
