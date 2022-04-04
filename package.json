@@ -1,15 +1,20 @@
 {
   "name": "@minthesize/cubism",
-  "version": "0.1.0-pre12",
+  "version": "0.1.0-pre13",
   "description": "Lightweight Resource-Based Presence Solution with CableReady.",
-  "main": "./javascript/index.js",
-  "module": "./javascript/index.js",
-  "files": ["javascript/**/*.js"],
+  "main": "./dist/cubism.umd.min.js",
+  "module": "./dist/cubism.min.js",
+  "files": [
+    "dist/*",
+    "javascript/*"
+  ],
   "scripts": {
     "lint": "yarn run prettier-standard:check",
     "format": "yarn run prettier-standard:format",
-    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js",
-    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js"
+    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js rollup.config.js",
+    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.js",
+    "build": "yarn rollup -c",
+    "watch": "yarn rollup -wc"
   },
   "repository": {
     "type": "git",
@@ -25,9 +30,14 @@
   },
   "homepage": "https://github.com/julianrubisch/cubism#readme",
   "devDependencies": {
-    "prettier-standard": "^16.4.1"
+    "@rollup/plugin-commonjs": "^21.0.3",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "prettier-standard": "^16.4.1",
+    "rollup": "^2.70.1",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "cable_ready": "5.0.0-pre8"
+    "cable_ready": "^5.0.0-pre9"
   }
 }

@@ -15,3 +15,9 @@
 .dir-locals.el
 gemfiles/*.lock
 /vendor/
+
+dist/**
+!dist/.keep
+
+app/assets/javascripts/**
+!app/assets/javascripts/.keep 
