@@ -71,10 +71,27 @@ And then execute:
 $ bundle
 ```
 
-After `bundle`, install the Javascript library:
+There are a few ways to install the Cubism JavaScript client, depending on your application setup.
 
-```bash
-$ bin/yarn add @minthesize/cubism
+#### ESBuild / Webpacker
+
+```sh
+yarn add @minthesize/cubism
+```
+
+#### Import maps:
+
+```ruby
+# config/importmap.rb
+# ...
+pin '@minthesize/cubism', to: 'cubism.min.js', preload: true
+```
+
+#### Rails Asset pipeline (Sprockets):
+
+```html+erb
+<!-- app/views/layouts/application.html.erb -->
+<%= javascript_include_tag "cubism.umd.min.js", "data-turbo-track": "reload" %>
 ```
 
 ### Kredis
@@ -146,7 +163,7 @@ yarn link # set the local machine's cubism npm package's lookup to this local pa
 
 # Setup a sample project and edit Gemfile to point to local gem
 # (e.g. `gem "cubism", path: "../cubism"`)
-# yarn link @stimulus_reflex/cubism
+# yarn link @minthesize/cubism
 
 
 # Do your work, Submit PR, Profit!
@@ -163,14 +180,17 @@ cd path/to/project
 yarn install --force
 ```
 
-### Release
+### 📦 Releasing
 
-1. Update the version numbers in `javascript/package.json` and `lib/cubism/version.rb`
-2. `git commit -m "Bump version to x.x.x"`
-3. Run `bundle exec rake build`
-4. Run `bundle exec rake release`
-5. Run `npm publish --access public`
-
+1. Make sure that you run `yarn` and `bundle` to pick up the latest.
+2. Bump version number at `lib/cubism/version.rb`. Pre-release versions use `.preN`
+3. Run `rake build` and `yarn build`
+4. Commit and push changes to github `git commit -m "Bump version to x.x.x"`
+5. Run `rake release`
+6. Run `yarn publish --no-git-tag-version`
+7. Yarn will prompt you for the new version. Pre-release versions use `-preN`
+8. Commit and push changes to GitHub
+9. Create a new release on GitHub ([here](https://github.com/julianrubisch/cubism/releases)) and generate the changelog for the stable release for it
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
