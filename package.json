@@ -1,6 +1,6 @@
 {
   "name": "@minthesize/cubism",
-  "version": "0.1.0-pre12",
+  "version": "0.1.0-pre13",
   "description": "Lightweight Resource-Based Presence Solution with CableReady.",
   "main": "./dist/cubism.umd.min.js",
   "module": "./dist/cubism.min.js",
