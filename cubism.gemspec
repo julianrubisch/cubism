@@ -14,11 +14,19 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = "https://github.com/julianrubisch/cubism.git"
   # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
-  spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  spec.files = Dir[
+    "lib/**/*.rb",
+    "app/**/*.rb",
+    "app/assets/javascripts/*",
+    "bin/*",
+    "[A-Z]*"
+  ]
+
+  spec.test_files = Dir["test/**/*.rb"]
 
   spec.add_dependency "rails", ">= 6.0"
   spec.add_dependency "kredis", ">= 0.4"
-  spec.add_dependency "cable_ready", "= 5.0.0.pre8"
+  spec.add_dependency "cable_ready", "= 5.0.0.pre9"
 
   spec.add_development_dependency "standard"
   spec.add_development_dependency "nokogiri"
