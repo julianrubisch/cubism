@@ -32,7 +32,7 @@ export class Cubicle extends SubscribingElement {
       : []
     this.triggerRootSelector = this.getAttribute('trigger-root')
 
-    this.consumer = await CableReady.consumer
+    this.consumer = await CableReady.cable.getConsumer()
 
     this.channel = this.createSubscription()
 
