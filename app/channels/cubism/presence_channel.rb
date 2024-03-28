@@ -21,10 +21,14 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
 
   def appear
     resource.set_present_users_for_scope(resource.present_users_for_scope(scope).add(user.id), scope) if scope
+  rescue ActiveRecord::RecordNotFound
+    # do nothing if the user wasn't found
   end
 
   def disappear
     resource.set_present_users_for_scope(resource.present_users_for_scope(scope).delete(user.id), scope) if scope
+  rescue ActiveRecord::RecordNotFound
+    # do nothing if the user wasn't found
   end
 
   private
