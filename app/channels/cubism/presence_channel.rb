@@ -2,6 +2,8 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   include CableReady::StreamIdentifier
 
   def subscribed
+    return if Cubism.skip_in_test? && Rails.env.test?
+
     if resource.present?
       stream_from element_id
       resource.cubicle_element_ids << element_id
@@ -12,6 +14,8 @@ class Cubism::PresenceChannel < ActionCable::Channel::Base
   end
 
   def unsubscribed
+    return if Cubism.skip_in_test? && Rails.env.test?
+
     return unless resource.present?
 
     resource.cubicle_element_ids.remove(element_id)

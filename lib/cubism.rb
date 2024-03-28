@@ -16,4 +16,10 @@ module Cubism
 
   mattr_accessor :block_store, instance_reader: false
   mattr_accessor :source_store, instance_reader: false
+
+  mattr_accessor :skip_in_test, default: false
+
+  def self.skip_in_test?
+    skip_in_test.present?
+  end
 end

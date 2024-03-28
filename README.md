@@ -125,6 +125,15 @@ The `cubicle_for` helper accepts the following options as keyword arguments:
 ### Supported Template Handlers
 - ERB
 
+## Testing
+In Rails system tests there is a chance that tests will hang in some cases. To overcome this, add the flag
+
+```ruby
+Cubism.skip_in_test = true
+```
+
+to an initializer, for example `config/initializers/cubism.rb`.
+
 ## Gotchas
 
 ### Usage with ViewComponent
