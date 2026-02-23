@@ -9,6 +9,13 @@ module CubismHelper
       location: block_location,
       view_context: self
     )
+    if block_source.variable_name.blank?
+      block_variable_name = block.parameters.find { |type, _| [:req, :opt, :rest].include?(type) }&.last
+      if block_variable_name.present?
+        block_source.variable_name = block_variable_name.to_s
+        Cubism.source_store[block_source.digest] = block_source
+      end
+    end
 
     resource_gid = resource.to_gid.to_s
 

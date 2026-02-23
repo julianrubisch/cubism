@@ -21,7 +21,9 @@ module Cubism
 
         block_source = block_container.block_source
 
-        html = ApplicationController.render(inline: block_source.source, locals: {"#{block_source.variable_name}": present_users})
+        inline_source = block_source.source
+        inline_source = inline_source.dup if inline_source.frozen?
+        html = ApplicationController.render(inline: inline_source, locals: {"#{block_source.variable_name}": present_users})
 
         selector = "cubicle-element#cubicle-#{element_id}[identifier='#{signed_stream_identifier(resource.to_global_id.to_s)}']"
 
