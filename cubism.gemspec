@@ -27,10 +27,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", ">= 6.0"
   spec.add_dependency "kredis", ">= 0.4"
   spec.add_dependency "cable_ready", ">= 5.0.0"
+  spec.add_dependency "observer"
 
   spec.add_development_dependency "standard"
   spec.add_development_dependency "nokogiri"
   spec.add_development_dependency "mocha"
   spec.add_development_dependency "appraisal"
-  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "sqlite3", ">= 2.1"
 end
