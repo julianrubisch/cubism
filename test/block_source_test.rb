@@ -73,6 +73,8 @@ class BlockSourceTest < ActionView::TestCase
 
     instance = Cubism::BlockSource.new(
       location: "#{template_tmp_path(template)}.html.erb:1",
+      source: "<div><%= users %></div>",
+      variable_name: "users",
       view_context: self
     )
 
@@ -82,12 +84,33 @@ class BlockSourceTest < ActionView::TestCase
 
     Cubism::BlockSource.any_instance.expects(:parse!).never
 
-    Cubism::BlockSource.find_or_create(
+    found = Cubism::BlockSource.find_or_create(
       location: "#{template_tmp_path(template)}.html.erb:1",
       view_context: self
     )
 
     assert_equal 1, Cubism.source_store.size
+    assert_equal "<div><%= users %></div>", found.source
+    assert_equal "users", found.variable_name
+  end
+
+  test "a stored block source without a source is reparsed instead of returned" do
+    template = "fixtures/_cubicle_partial"
+
+    instance = Cubism::BlockSource.new(
+      location: "#{template_tmp_path(template)}.html.erb:1",
+      view_context: self
+    )
+
+    Cubism.source_store[instance.digest] = instance
+
+    found = Cubism::BlockSource.find_or_create(
+      location: "#{template_tmp_path(template)}.html.erb:1",
+      view_context: self
+    )
+
+    assert found.source.present?
+    assert_equal found.source, Cubism.source_store[instance.digest].source
   end
 
   private

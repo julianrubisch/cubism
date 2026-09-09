@@ -99,9 +99,16 @@ module Cubism
   ) do
     def self.find_or_create(location:, view_context:)
       instance = new(location: location, view_context: view_context)
+      stored = Cubism.source_store[instance.digest]
 
-      Cubism.source_store.fetch(instance.digest, instance) do |instance|
+      # A stored entry without a source is unusable downstream (the broadcaster
+      # would hand `inline: nil` to ActionView), so treat it as a miss and reparse.
+      if stored&.source.present?
+        instance.source = stored.source
+        instance.variable_name = stored.variable_name
+      else
         instance.parse!
+        Cubism.source_store[instance.digest] = instance
       end
 
       instance
