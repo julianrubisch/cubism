@@ -10,40 +10,31 @@ on:
 
 jobs:
   ruby_test:
-    name: Ruby Test Action
+    name: Ruby ${{ matrix.ruby-version }} / Rails ${{ matrix.rails-version }}
     runs-on: ubuntu-latest
     strategy:
-       matrix:
-         ruby-version: [3.1.4, 3.2.3, 3.3.0]
-         rails-version: ['6_0', '6_1', '7_0', '7_1']
+      fail-fast: false
+      matrix:
+        ruby-version: ['3.2', '3.3', '3.4']
+        rails-version: ['7_2', '8_0', '8_1']
     env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile         
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-      - uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Set up Redis 4
-        uses: supercharge/redis-github-action@1.2.0
-        with:
-          redis-version: 4
-      - name: Install sqlite headers
-        run: |
-          sudo apt-get update
-          sudo apt-get install libsqlite3-dev
-      - name: Bundle install
-        run: |
-          gem install bundler
-          gem update --system
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
+          bundler-cache: true
       - name: Run ruby tests
-        run: |
-          bundle exec rake test
+        run: bundle exec rake test

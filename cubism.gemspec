@@ -22,14 +22,12 @@ Gem::Specification.new do |spec|
     "[A-Z]*"
   ]
 
-  spec.test_files = Dir["test/**/*.rb"]
-
   spec.add_dependency "rails", ">= 6.0"
   spec.add_dependency "kredis", ">= 0.4"
   spec.add_dependency "cable_ready", ">= 5.0.0"
   spec.add_dependency "observer"
 
-  spec.add_development_dependency "standard"
+  spec.add_development_dependency "standard", ">= 1.35.1"
   spec.add_development_dependency "nokogiri"
   spec.add_development_dependency "mocha"
   spec.add_development_dependency "appraisal"

@@ -36,7 +36,10 @@ module Cubism
     def evaluate_view(erubi, view_context)
       view = Class.new(ActionView::Base) {
         include view_context._routes.url_helpers
-        class_eval("define_method(:_template) { |local_assigns, output_buffer| #{erubi.src} }", erubi.filename.nil? ? "(erubi)" : erubi.filename, 0)
+
+        # Deliberately not __FILE__/__LINE__: the eval'd source is the user's
+        # template, so backtraces have to point there and not at this file.
+        class_eval("define_method(:_template) { |local_assigns, output_buffer| #{erubi.src} }", erubi.filename.nil? ? "(erubi)" : erubi.filename, 0) # standard:disable Style/EvalWithLocation
       }.empty
       view._run(:_template, nil, {}, ActionView::OutputBuffer.new)
     end
