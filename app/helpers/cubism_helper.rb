@@ -13,7 +13,9 @@ module CubismHelper
       block_variable_name = block.parameters.find { |type, _| [:req, :opt, :rest].include?(type) }&.last
       if block_variable_name.present?
         block_source.variable_name = block_variable_name.to_s
-        Cubism.source_store[block_source.digest] = block_source
+        # Never write back a sourceless block source: it would replace a good
+        # store entry with one the broadcaster cannot render.
+        Cubism.source_store[block_source.digest] = block_source if block_source.source.present?
       end
     end
 

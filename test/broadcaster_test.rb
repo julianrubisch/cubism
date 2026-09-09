@@ -34,6 +34,25 @@ class BroadcasterTest < ActionView::TestCase
     end
   end
 
+  test "it skips elements whose block source has no source instead of raising" do
+    @post.stubs(:cubicle_element_ids).returns(%w[nosource])
+    @post.stubs(:present_users_for_element_id_and_scope).with("nosource", "").returns([users(:one)])
+
+    sourceless = Cubism::BlockSource.new(location: "test:1", view_context: self)
+    Cubism.stubs(:block_store).returns({
+      "nosource" => Cubism::BlockContainer.new(block_location: "test:1", block_source: sourceless, user_gid: users(:one).to_gid.to_s, resource_gid: posts(:one).to_gid.to_s)
+    })
+
+    cable_ready_mock = mock
+    cable_ready_mock.expects(:broadcast).once
+    cable_ready_mock.expects(:[]).never
+
+    broadcaster = Cubism::Broadcaster.new(resource: @post)
+    broadcaster.expects(:cable_ready).returns(cable_ready_mock).once
+
+    broadcaster.broadcast
+  end
+
   test "it broadcasts to all registered element ids and respects scopes" do
     with_mocked_cable_ready({"baz" => {"edit" => users(:one)}}, @post_2) do |cable_ready_mock|
       @broadcaster = Cubism::Broadcaster.new(resource: @post_2)

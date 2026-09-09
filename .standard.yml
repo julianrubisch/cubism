@@ -1,0 +1,9 @@
+ruby_version: 3.2
+
+ignore:
+  - "test/dummy/**/*"
+  - "gemfiles/**/*"
+  # Both structs override initialize and round-trip through Marshal; dropping
+  # keyword_init changes how `super` sees its arguments, so leave it explicit.
+  - "lib/cubism/cubicle_store.rb":
+      - Style/RedundantStructKeywordInit
